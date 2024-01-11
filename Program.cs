@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using ProyectoManager.Components;
+using ProyectoManager.DAL;
 
 namespace ProyectoManager
 {
@@ -11,6 +13,12 @@ namespace ProyectoManager
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+            //leer la connection string llamada ConStr que pusimos en appsettings.json
+            var ConStr = builder.Configuration.GetConnectionString("ConStr");
+
+            //inyectar el contextopara que este disponible en los constructores donde los solicitemos
+            builder.Services.AddDbContext<Contexto>(Options => Options.UseSqlite(ConStr));
+
 
             var app = builder.Build();
 
