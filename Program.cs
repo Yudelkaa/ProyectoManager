@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ProyectoManager.BLL;
 using ProyectoManager.Components;
 using ProyectoManager.DAL;
 
@@ -19,7 +20,9 @@ namespace ProyectoManager
             //inyectar el contextopara que este disponible en los constructores donde los solicitemos
             builder.Services.AddDbContext<Contexto>(Options => Options.UseSqlite(ConStr));
 
-
+            //inyecté las BLL
+            builder.Services.AddScoped<PrioridadesBLL>();
+          
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using ProyectoManager.DAL;
 using ProyectoManager.Models;
 using System.Linq.Expressions;
