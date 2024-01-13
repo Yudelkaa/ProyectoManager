@@ -16,6 +16,10 @@ namespace ProyectoManager.BLL
 
         public bool Save(Prioridades Prioridades)
         {
+            if(Validar(Prioridades))
+            {
+                return false;
+            }
             if (Prioridades.PrioridadesId == 0)
                 _contexto.Prioridades.Add(Prioridades);
             else
@@ -24,6 +28,15 @@ namespace ProyectoManager.BLL
             var saved = _contexto.SaveChanges() > 0;
             return saved;
         }
+
+        public bool Validar(Prioridades prioridades)
+        {
+            bool encontrado = (_contexto.Prioridades.Any(p => p.Descripcion!.ToLower()
+            == prioridades.Descripcion!.ToLower()));
+
+            return encontrado;
+        }
+
 
         public bool Modify(Prioridades prioridades)
         {
@@ -44,11 +57,25 @@ namespace ProyectoManager.BLL
             return _contexto.SaveChanges() > 0;
         }
 
-        public bool Eliminar(Prioridades prioridades)
+        public bool Delete (int id)
         {
-            _contexto.Entry(prioridades).State = EntityState.Deleted;
-            return _contexto.SaveChanges() > 0;
+            var prioridad =_contexto.Prioridades.Find(id);
+            _contexto.Prioridades.Remove(prioridad);
+
+            var eliminado = _contexto.SaveChanges() > 0;
+
+            return eliminado;
         }
+        public async Task<Prioridades?> FindAsync(int id)
+        {
+            return await _contexto.Prioridades.FindAsync(id);
+        }
+
+
+        
+
+
+
 
         public Prioridades? Buscar(int prioridadesId)
         {
@@ -61,6 +88,10 @@ namespace ProyectoManager.BLL
             return _contexto.Prioridades.AsNoTracking().Where(criterio).ToList();
         }
 
-
+        public List<Prioridades> GetPrioridades()
+        {
+            var prioridades = _contexto.Prioridades.ToList();
+            return prioridades;
+        }
     }
 }

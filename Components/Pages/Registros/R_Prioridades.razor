@@ -1,0 +1,93 @@
+﻿@page "/R_Prioridades"
+@inject PrioridadesBLL prioridadesBLL;
+@rendermode InteractiveServer
+
+<PageTitle>Registro Yudelka</PageTitle>
+
+<EditForm Model="prioridad" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h3>Registro.</h3>
+            </div>
+            <div class=card-body>
+
+                @*Prioridades Id:*@
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                    <label>Prioridades Id:</label>
+                    <div class="input-group mb-3">
+                        <InputNumber @bind-Value="prioridad.PrioridadesId" class="form-control" aria-describedby="BotonBuscar" />
+                        <button @onclick="Buscar" class="btn btn-outline-primary" type="button" id="BotonBuscar"><i class="oi oi-magnifying-glass" /></button>
+                    </div>
+                </div>
+
+                @*Descripcion*@
+                <div class="mb-3">
+                    <label class="form-label" for="Descripcion">Describa:</label>
+                    <InputText @bind-Value="prioridad.Descripcion" class="form-control" />
+                    <ValidationMessage For="@(() => prioridad.Descripcion)" />
+                </div>
+
+            </div>
+            <div class="card-footer d-flex justify-content-center">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-primary" @onclick="Nuevo">Nuevo <i class="oi oi-file" /></button>
+                    <button type="submit" class="btn btn-outline-success">Guardar <i class="oi oi-document" /></button>
+                    <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar <i class="oi oi-trash" /></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    public Prioridades prioridad { get; set; } = new Prioridades();
+
+    public string mensajeError = "";
+    public string mensaje;
+
+    public async Task Buscar()
+    {
+        var encontrado = await prioridadesBLL.FindAsync(prioridad.PrioridadesId);
+        if (encontrado != null)
+            prioridad = encontrado;
+        else
+            mensajeError = "No se encontró la prioridad";
+    }
+
+
+    public async Task Guardar()
+    {
+       
+        var guardo = prioridadesBLL.Save(prioridad);
+        if (guardo)
+        {
+            mensaje = "Se guardó";
+            Nuevo();
+        }
+        else
+            mensajeError = "No se pudo guardar";
+    }
+
+    void Nuevo()
+    {
+        this.prioridad = new Prioridades();
+        mensajeError = string.Empty;
+    }
+
+ 
+    public async Task Eliminar()
+    {
+        var eliminado = prioridadesBLL.Delete(prioridad.PrioridadesId);
+        if (eliminado)
+        {
+            mensajeError = "Se eliminó correctamente";
+            Nuevo();
+        }
+        else
+            mensajeError = "No se pudo eliminar la prioridad";
+    }
+
+}

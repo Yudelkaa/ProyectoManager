@@ -16,11 +16,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Radzen.Blazor" Version="4.23.9" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Components\Pages\Consultas\" />
-    <Folder Include="Components\Pages\Registros\" />
     <Folder Include="Data\" />
   </ItemGroup>
 
