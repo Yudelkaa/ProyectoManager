@@ -16,7 +16,7 @@
 
                 @*Prioridades Id:*@
                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
-                    <label>Prioridades Id:</label>
+                    <label>Id prioridades:</label>
                     <div class="input-group mb-3">
                         <InputNumber @bind-Value="prioridad.PrioridadesId" class="form-control" aria-describedby="BotonBuscar" />
                         <button @onclick="Buscar" class="btn btn-primary bi bi-search-heart" type="button" id="BotonBuscar"></button>
@@ -24,22 +24,22 @@
                 </div>
 
                 @*Descripcion*@
-                <div class="mb-3">
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
                     <label class="form-label" for="Descripcion">Descripción:</label>
                     <InputText @bind-Value="prioridad.Descripcion" class="form-control" />
                     <ValidationMessage For="@(() => prioridad.Descripcion)" />
                 </div>
 
                 @*Dias Compromiso*@
-                <div class="mb-3">
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
                     <label class="form-label" for="DiasCompromiso">Días de compromiso:</label>
                     <InputNumber @bind-Value="prioridad.DiasCompromiso" class="form-control" />
                     <ValidationMessage For="@(() => prioridad.DiasCompromiso)" />
                 </div>
 
             </div>
-            <div class="card-footer d-flex justify-content-center">
-                <div class="btn-group">
+            <div class="card-footer d-flex justify-content">
+                <div class="col-xs-18 col-sm-12 col-md-10 col-lg-30 col-xl-40">
                     <button type="button" class="btn btn-primary" @onclick="Nuevo">Nuevo <i class="oi oi-file" /></button>
                     <button type="submit" class="btn btn-success">Guardar <i class="oi oi-document" /></button>
                     <button type="button" class="btn btn-danger" @onclick="Eliminar">Eliminar <i class="oi oi-trash" /></button>
@@ -83,16 +83,18 @@
         mensajeError = string.Empty;
     }
 
-     public async Task Eliminar()
+    public async Task Eliminar()
     {
-    var eliminado =  prioridadesBLL.Delete(prioridad.PrioridadesId);
+        var eliminado = await prioridadesBLL.DeleteAsync(prioridad.PrioridadesId);
+
         if (eliminado)
         {
-        mensajeError = "Se eliminó correctamente";
-        Nuevo();
+            mensajeError = "Se eliminó correctamente";
+            Nuevo();
         }
         else
-        mensajeError = "No se pudo eliminar la prioridad";
+        {
+            mensajeError = "No se pudo eliminar la prioridad";
+        }
     }
-
 }

@@ -37,6 +37,26 @@ namespace ProyectoManager.BLL
             return encontrado;
         }
 
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var prioridad = await _contexto.Prioridades.FindAsync(id);
+
+            if (prioridad == null)
+            {
+                return false;
+            }
+            _contexto.Prioridades.Remove(prioridad);
+            var eliminado = await _contexto.SaveChangesAsync() > 0;
+
+            // si no hay registros en la tabla
+            var totalRegistros = await _contexto.Prioridades.CountAsync();
+            if (totalRegistros == 0)
+            {
+                // borraa, para que no tenga el numero siguiente al orden si se borra todos los registros
+                await _contexto.Database.ExecuteSqlRawAsync("DELETE FROM sqlite_sequence WHERE name='Prioridades'");
+            }
+            return eliminado;
+        }
 
         public bool Modify(Prioridades prioridades)
         {
@@ -51,19 +71,10 @@ namespace ProyectoManager.BLL
 
         }
 
-        private bool Insert(Prioridades prioridades)
+         private bool Insert(Prioridades prioridades)
         {
             _contexto.Prioridades.Add(prioridades);
             return _contexto.SaveChanges() > 0;
-        }
-
-        public bool Delete (int id)
-        {
-            var prioridad =_contexto.Prioridades.Find(id);
-            _contexto.Prioridades.Remove(prioridad);
-
-            var eliminado = _contexto.SaveChanges() > 0;
-            return eliminado;
         }
         public async Task<Prioridades?> FindAsync(int id)
         {
