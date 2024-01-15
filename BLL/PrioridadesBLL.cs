@@ -63,19 +63,12 @@ namespace ProyectoManager.BLL
             _contexto.Prioridades.Remove(prioridad);
 
             var eliminado = _contexto.SaveChanges() > 0;
-
             return eliminado;
         }
         public async Task<Prioridades?> FindAsync(int id)
         {
             return await _contexto.Prioridades.FindAsync(id);
         }
-
-
-        
-
-
-
 
         public Prioridades? Buscar(int prioridadesId)
         {
