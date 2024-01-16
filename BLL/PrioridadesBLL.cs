@@ -7,7 +7,7 @@ namespace ProyectoManager.BLL
 {
     public class PrioridadesBLL
     {
-        private Contexto _contexto;
+        private readonly Contexto _contexto;
 
         public PrioridadesBLL(Contexto contexto)
         {
@@ -36,7 +36,11 @@ namespace ProyectoManager.BLL
 
             return encontrado;
         }
-
+        private bool Insert(Prioridades prioridades)
+        {
+            _contexto.Prioridades.Add(prioridades);
+            return _contexto.SaveChanges() > 0;
+        }
         public async Task<bool> DeleteAsync(int id)
         {
             var prioridad = await _contexto.Prioridades.FindAsync(id);
@@ -71,20 +75,16 @@ namespace ProyectoManager.BLL
 
         }
 
-         private bool Insert(Prioridades prioridades)
-        {
-            _contexto.Prioridades.Add(prioridades);
-            return _contexto.SaveChanges() > 0;
-        }
+      
         public async Task<Prioridades?> FindAsync(int id)
         {
             return await _contexto.Prioridades.FindAsync(id);
         }
 
-        public Prioridades? Buscar(int prioridadesId)
+        public async Task <Prioridades?> Buscar(int prioridadesId)
         {
             return _contexto.Prioridades.Where(o => o.PrioridadesId
-            == prioridadesId).AsNoTracking().SingleOrDefault();
+            == prioridadesId).AsNoTracking().FirstOrDefault(o => o.PrioridadesId == prioridadesId); 
         }
 
         public List<Prioridades> GetList(Expression<Func<Prioridades, bool>> criterio)

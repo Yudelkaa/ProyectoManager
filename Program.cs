@@ -14,6 +14,7 @@ namespace ProyectoManager
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
+
             //leer la connection string llamada ConStr que pusimos en appsettings.json
             var ConStr = builder.Configuration.GetConnectionString("ConStr");
 
@@ -22,7 +23,6 @@ namespace ProyectoManager
 
             //inyecté las BLL
             builder.Services.AddScoped<PrioridadesBLL>();
-          
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -36,7 +36,7 @@ namespace ProyectoManager
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
-            app.UseAntiforgery();
+            app.UseAntiforgery(); //evitar hackeos de tokens
 
             app.MapRazorComponents<App>()
                 .AddInteractiveServerRenderMode();
