@@ -67,7 +67,7 @@
 
     public async Task Guardar()
     {
-        var guardo = prioridadesBLL.Save(prioridad);
+        var guardo = await prioridadesBLL.Guardar(prioridad);
         if (guardo)
         {
             mensaje = "Se guardó";
@@ -85,7 +85,7 @@
 
     public async Task Eliminar()
     {
-        var eliminado = await prioridadesBLL.DeleteAsync(prioridad.PrioridadesId);
+        var eliminado = await prioridadesBLL.Eliminar(prioridad);
 
         if (eliminado)
         {
@@ -97,4 +97,5 @@
             mensajeError = "No se pudo eliminar la prioridad";
         }
     }
+
 }
