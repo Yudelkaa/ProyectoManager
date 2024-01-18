@@ -34,18 +34,18 @@ namespace ProyectoManager.BLL
             return await _contexto.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> Validar(Prioridades prioridades)
+        public Task<bool> Validar(Prioridades prioridades)
         {
              var encontrado =  (_contexto.Prioridades.Any(p => p.Descripcion!.ToLower()
             == prioridades.Descripcion!.ToLower()));
 
-            return encontrado;
+            return Task.FromResult(encontrado);
         }
 
         public async Task<bool> Eliminar(Prioridades prioridades)
         {
             var cantidad = await _contexto.Prioridades
-                .Where(o => o.PrioridadesId == prioridades.PrioridadesId)
+                .Where(p => p.PrioridadesId == prioridades.PrioridadesId)
                 .ExecuteDeleteAsync();
 
             return cantidad > 0;
@@ -55,7 +55,7 @@ namespace ProyectoManager.BLL
         {
             return await _contexto.Prioridades
                 .AsNoTracking()
-                .FirstOrDefaultAsync(o => o.PrioridadesId == prioridadesId);
+                .FirstOrDefaultAsync(p => p.PrioridadesId == prioridadesId);
         }
 
 

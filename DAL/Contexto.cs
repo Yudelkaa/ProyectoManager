@@ -7,7 +7,5 @@ namespace ProyectoManager.DAL
     {
         public DbSet<Prioridades> Prioridades { get; set; }
         public Contexto(DbContextOptions<Contexto> Options): base(Options) { }
-
-        
     }
 }
