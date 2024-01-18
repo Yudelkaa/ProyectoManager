@@ -2,17 +2,18 @@
 using ProyectoManager.DAL;
 using ProyectoManager.Models;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
+
 
 namespace ProyectoManager.BLL
 {
     public class ClientesBLL
     {
+        private readonly Contexto _contextoClientes;
 
-        private readonly ContextoClientes _contextoClientes;
-
-        public ClientesBLL(ContextoClientes contexto)
+        public ClientesBLL(Contexto contextoClientes)
         {
-            _contextoClientes = contexto;
+            _contextoClientes = contextoClientes;
         }
         public async Task<bool> Guardar(Clientes clientes)
         {
@@ -34,7 +35,7 @@ namespace ProyectoManager.BLL
             return await _contextoClientes.SaveChangesAsync() > 0;
         }
 
-		public async Task<bool> Validar(Clientes clientes)
+		public  bool Validar(Clientes clientes)
 		{
 			var encontrado = (_contextoClientes.Clientes.Any(p => p.Nombres!.ToLower()
 		   == clientes.Nombres!.ToLower()));

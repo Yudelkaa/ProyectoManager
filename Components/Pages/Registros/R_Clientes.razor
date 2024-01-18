@@ -1,7 +1,69 @@
 ﻿@page "/R_Clientes"
-@inject ClientesBLL clientesbll;
+@inject ClientesBLL clientesBLL;
+@rendermode InteractiveServer
+
+<PageTitle>Registro y consultas</PageTitle>
+
+<EditForm Model="clientes" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h3>Registro y consultas</h3>
+            </div>
+        </div>
+    </div>
+</EditForm>
 
 @code {
-	public Clientes clientes { get; set; } = new Clientes();
+    public Clientes clientes { get; set; } = new Clientes();
+    public string mensaje="";
 
+    public async Task Buscar()
+    {
+        var encontrado = await clientesBLL.FindAsync(clientes.ClientesId);
+        if (encontrado != null)
+            clientes = encontrado;
+        else
+            mensaje = "No se encontró el cliente";
+    }
+
+    public async Task<bool> Guardar()
+    {
+        var guardo = await clientesBLL.Guardar(clientes);
+
+        if (guardo)
+        {
+            mensaje = "Se guardó";
+            Nuevo();
+            return true; 
+        }
+        else
+        {
+            mensaje = "No se pudo guardar";
+            return false; 
+        }
+    }
+
+    void Nuevo()
+    {
+        this.clientes = new Clientes();
+        mensaje = string.Empty;
+    }
+
+    public async Task Eliminar()
+    {
+        var eliminado = await clientesBLL.Eliminar(clientes);
+
+        if (eliminado)
+        {
+            mensaje = "Se eliminó correctamente";
+            Nuevo();
+        }
+        else
+        {
+            mensaje = "No se pudo eliminar la prioridad";
+        }
+    }
 }

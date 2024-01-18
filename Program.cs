@@ -23,6 +23,8 @@ namespace ProyectoManager
 
             //inyecté las BLL
             builder.Services.AddScoped<PrioridadesBLL>();
+            builder.Services.AddScoped<ClientesBLL>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

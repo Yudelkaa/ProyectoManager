@@ -48,6 +48,7 @@
         </div>
     </div>
 </EditForm>
+
 @code {
     public Prioridades prioridad { get; set; } = new Prioridades();
 
@@ -64,10 +65,9 @@
             mensajeError = "No se encontró la prioridad";
     }
 
-
     public async Task Guardar()
     {
-        var guardo = await prioridadesBLL.Guardar(prioridad);
+        var guardo = await prioridadesBLL.Guardar(prioridad); //????
         if (guardo)
         {
             mensaje = "Se guardó";
@@ -76,7 +76,7 @@
         else
             mensajeError = "No se pudo guardar";
     }
-
+ 
     void Nuevo()
     {
         this.prioridad = new Prioridades();
