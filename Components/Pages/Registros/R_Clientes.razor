@@ -2,23 +2,89 @@
 @inject ClientesBLL clientesBLL;
 @rendermode InteractiveServer
 
-<PageTitle>Registro y consultas</PageTitle>
+<PageTitle>Registro de clientes y consultas</PageTitle>
 
-<EditForm Model="clientes" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator />
-
+<EditForm Model="@clientes" OnValidSubmit="Guardar">
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header">
-                <h3>Registro y consultas</h3>
+                <h3><strong>Registro y consultas de clientes</strong></h3>
+            </div>
+
+            <div class="card-body">
+                @*Cliente Id*@
+
+                <div class="input-group mb-3">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label for="id"><strong>ID:</strong></label>
+                        <div class="input-group">
+                            <InputNumber @bind-Value="clientes.ClientesId" class="form-control" aria-describedby="BotonBuscar" />
+                            <button @onclick="Buscar" class="btn btn-primary bi bi-search-heart" type="button" id="BotonBuscar"></button>
+                        </div>
+                    </div>
+                </div>
+
+                 @*Nombre*@
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="Nombres"><strong>Nombres:</strong></label>
+                        <InputText @bind-Value="clientes.Nombres" class="form-control" />
+                        <ValidationMessage For="@(() => clientes.Nombres)" />
+                    </div>
+                </div>
+                @*Celular*@
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="Celular"><strong>Celular:</strong></label>
+                        <InputNumber @bind-Value="clientes.Celular" class="form-control" />
+                        <ValidationMessage For="@(() => clientes.Celular)" />
+                    </div>
+                </div>
+                @*RNC*@
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="RNC"><strong>RNC:</strong></label>
+                        <InputText @oninput ="@(e => volverMayusculas((string?)e.Value))" @bind-Value="clientes.RNC" class="form-control" />
+                        <ValidationMessage For="@(() => clientes.RNC)" />
+                    </div>
+                </div>
+                @*Email*@
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="Email"><strong>Email:</strong></label>
+                        <InputText @bind-Value="clientes.Email" class="form-control" />
+                        <ValidationMessage For="@(() => clientes.Email)" />
+                    </div>
+                </div>
+                @*Direccion*@
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="Direccion"><strong>Dirección:</strong></label>
+                        <div class="input-group">
+                        <InputText @bind-Value="clientes.Direccion" class="form-control" />
+                        <ValidationMessage For="@(() => clientes.Direccion)" />
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="col-xs-1 col-sm-2 col-md-3 col-lg-4 col-xl-5">
+                        
+                        <button type="button" class="btn btn-primary bi bi-file-earmark-plus " @onclick="Nuevo"> Nuevo <i class="oi oi-file " /></button>
+                        <button type="submit" class="btn btn-success bi bi-floppy"> Guardar <i class="oi oi-document" /></button>
+                        <button type="button" class="btn btn-danger bi bi-trash3" @onclick="Eliminar"> Eliminar <i class="oi oi-trash" /></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </EditForm>
 
+
 @code {
     public Clientes clientes { get; set; } = new Clientes();
     public string mensaje="";
+    public string? rnc;
 
     public async Task Buscar()
     {
@@ -65,5 +131,10 @@
         {
             mensaje = "No se pudo eliminar la prioridad";
         }
+    }
+
+    public void volverMayusculas(string valor)
+    {
+            clientes.RNC = (string)valor.ToUpper();
     }
 }
