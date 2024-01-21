@@ -1,5 +1,42 @@
-﻿<h3>Consulta</h3>
+﻿@page "/C_Consulta"
+@inject ClientesBLL clientesBLL
+
+<PageTitle>Registro de Tickets</PageTitle>
+<EditForm Model="@clientes">
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header alert-secondary" style="color:darkblue">
+                <h3><strong>Consultas de clientes</strong></h3>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Celular</th>
+                        <th>RNC</th>
+                        <th>Email</th>
+                        <th>Dirección</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cliente in clientesBLL.GetClientes())
+                    {
+                        <tr>
+                            <td>@cliente.ClientesId</td>
+                            <td>@cliente.Nombres</td>
+                            <td>@cliente.Celular</td>
+                            <td>@cliente.RNC</td>
+                            <td>@cliente.Email</td>
+                            <td>@cliente.Direccion</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</EditForm>
 
 @code {
-
+    public Clientes clientes { get; set; } = new Clientes();
 }

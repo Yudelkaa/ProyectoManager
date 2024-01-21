@@ -2,7 +2,7 @@
 @inject ClientesBLL clientesBLL;
 @rendermode InteractiveServer
 
-<PageTitle>Registro de clientes y consultas</PageTitle>
+<PageTitle>Registro de Tickets</PageTitle>
 
 <EditForm Model="@clientes" OnValidSubmit="Guardar">
     <div class="container">
@@ -69,7 +69,6 @@
                
                 <div class="row">
                     <div class="col-xs-1 col-sm-2 col-md-3 col-lg-4 col-xl-5">
-                        
                         <button type="button" class="btn btn-primary bi bi-file-earmark-plus " @onclick="Nuevo"> Nuevo <i class="oi oi-file " /></button>
                         <button type="submit" class="btn btn-success bi bi-floppy"> Guardar <i class="oi oi-document" /></button>
                         <button type="button" class="btn btn-danger bi bi-trash3" @onclick="Eliminar"> Eliminar <i class="oi oi-trash" /></button>
@@ -133,8 +132,9 @@
         }
     }
 
-    public void volverMayusculas(string valor)
+    public void volverMayusculas(string? valor)
     {
+        if (valor != null)
             clientes.RNC = (string)valor.ToUpper();
     }
 }

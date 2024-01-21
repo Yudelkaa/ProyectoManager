@@ -71,7 +71,7 @@ namespace ProyectoManager.BLL
 
         }
 
-        public List<Clientes> GetPrioridades()
+        public List<Clientes> GetClientes()
         {
             var clientes = _contextoClientes.Clientes.ToList();
             return clientes;
@@ -81,5 +81,16 @@ namespace ProyectoManager.BLL
 		{
 			return await _contextoClientes.Clientes.FindAsync(id);
 		}
-	}
+
+        public bool Nombre_existe(string nombre)
+        {
+            return _contextoClientes.Clientes.Any(c => c.Nombres == nombre);
+        }
+
+        public bool RNC_existe(string rnc)
+        {
+            
+            return _contextoClientes.Clientes.Any(c => c.RNC == rnc);
+        }
+    }
 }
