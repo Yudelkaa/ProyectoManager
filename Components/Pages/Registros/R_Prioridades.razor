@@ -2,9 +2,8 @@
 @inject PrioridadesBLL prioridadesBLL;
 @rendermode InteractiveServer
 
-<PageTitle>Registro Yudelka</PageTitle>
-
-<EditForm Model="prioridad" OnValidSubmit="Guardar">
+<PageTitle>Registro de Tickets</PageTitle>
+<EditForm Model="prioridad" OnValidSubmit="Guardar" FormName="prioridades">
     <DataAnnotationsValidator />
 
     <div class="container">
@@ -48,6 +47,7 @@
         </div>
     </div>
 </EditForm>
+
 @code {
     public Prioridades prioridad { get; set; } = new Prioridades();
 
@@ -64,7 +64,6 @@
             mensajeError = "No se encontró la prioridad";
     }
 
-
     public async Task Guardar()
     {
         var guardo = await prioridadesBLL.Guardar(prioridad);
@@ -76,7 +75,7 @@
         else
             mensajeError = "No se pudo guardar";
     }
-
+ 
     void Nuevo()
     {
         this.prioridad = new Prioridades();
@@ -97,5 +96,4 @@
             mensajeError = "No se pudo eliminar la prioridad";
         }
     }
-
 }
