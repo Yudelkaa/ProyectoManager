@@ -3,8 +3,7 @@
 @rendermode InteractiveServer
 
 <PageTitle>Registro de Tickets</PageTitle>
-
-<EditForm Model="prioridad" OnValidSubmit="Guardar">
+<EditForm Model="prioridad" OnValidSubmit="Guardar" FormName="prioridades">
     <DataAnnotationsValidator />
 
     <div class="container">
@@ -67,7 +66,7 @@
 
     public async Task Guardar()
     {
-        var guardo = await prioridadesBLL.Guardar(prioridad); //????
+        var guardo = await prioridadesBLL.Guardar(prioridad);
         if (guardo)
         {
             mensaje = "Se guardó";

@@ -17,10 +17,14 @@ namespace ProyectoManager.BLL
         }
         public async Task<bool> Guardar(Clientes clientes)
         {
-            if (!await Existe(clientes.ClientesId))
-                return await Insertar(clientes);
-            else
-                return await Modificar(clientes);
+            if (!Validar(clientes))
+            {
+                if (!await Existe(clientes.ClientesId))
+                    return await Insertar(clientes);
+                else
+                    return await Modificar(clientes);
+            }
+            return false;
         }
 
         private async Task<bool> Insertar(Clientes clientes)
@@ -35,7 +39,7 @@ namespace ProyectoManager.BLL
             return await _contextoClientes.SaveChangesAsync() > 0;
         }
 
-		public  bool Validar(Clientes clientes)
+		public bool Validar(Clientes clientes)
 		{
 			var encontrado = (_contextoClientes.Clientes.Any(p => p.Nombres!.ToLower()
 		   == clientes.Nombres!.ToLower()));
@@ -81,16 +85,5 @@ namespace ProyectoManager.BLL
 		{
 			return await _contextoClientes.Clientes.FindAsync(id);
 		}
-
-        public bool Nombre_existe(string nombre)
-        {
-            return _contextoClientes.Clientes.Any(c => c.Nombres == nombre);
-        }
-
-        public bool RNC_existe(string rnc)
-        {
-            
-            return _contextoClientes.Clientes.Any(c => c.RNC == rnc);
-        }
     }
 }

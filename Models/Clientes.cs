@@ -17,7 +17,7 @@ namespace ProyectoManager.Models
         public long Celular { get; set; }
 
 
-        [RegularExpression(@"^\d{3}-\d{7}-\d$", ErrorMessage = "Por favor, ingrese su RNC")]
+        [Required(ErrorMessage = "Por favor, ingrese el RNC correctamente")]
         public string? RNC { get; set; }
 
 
