@@ -13,7 +13,7 @@ namespace ProyectoManager.Models
         public string? Nombres { get; set; }
 
 
-        [Required(ErrorMessage = "Por favor, ingrese su número de contacto")]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "Ingrese el número correctamente")]
         public long Celular { get; set; }
 
 
