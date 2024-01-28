@@ -1,4 +1,4 @@
-﻿@page "/R_Prioridades"
+﻿@page "/Create"
 @inject PrioridadesService prioridadesService;
 @rendermode InteractiveServer
 
@@ -8,8 +8,10 @@
 
     <div class="container">
         <div class="card shadow-lg">
-            <div class="card-header">
-                <h3>Registro</h3>
+             <div class="card-header" style="color: white; background-color: royalblue;">
+                <NavLink class="btn btn-light float-end" href="DetailsP">Consultar prioridades</NavLink> 
+                <h1><strong>Crear</strong></h1>
+                <h3>Prioridades</h3>
             </div>
             <div class=card-body>
 
@@ -17,16 +19,19 @@
                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
                     <label>Id prioridades:</label>
                     <div class="input-group mb-3">
-                        <InputNumber @bind-Value="prioridad.PrioridadesId" class="form-control" aria-describedby="BotonBuscar" />
-                        <button @onclick="Buscar" class="btn btn-primary bi bi-search-heart" type="button" id="BotonBuscar"></button>
+                        <InputNumber @bind-Value="prioridad.PrioridadesId" class="form-control" 
+                        aria-describedby="BotonBuscar" />
+                        <button @onclick="Buscar" class="btn btn-primary bi bi-search-heart" type="button" 
+                        id="BotonBuscar"></button>
                     </div>
                 </div>
 
                 @*Descripcion*@
+
                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
                     <label class="form-label" for="Descripcion">Descripci&oacute;n:</label>
                     <InputText @bind-Value="prioridad.Descripcion" class="form-control" />
-                    <ValidationMessage For="@(() => prioridad.Descripcion)" />
+                    <ValidationMessage For="@(() => prioridad.Descripcion)" class="text-danger" />
                 </div>
 
                 @*Dias Compromiso*@
@@ -39,9 +44,8 @@
             </div>
             <div class="card-footer d-flex justify-content">
                 <div class="col-xs-18 col-sm-12 col-md-10 col-lg-30 col-xl-40">
-                    <button type="button" class="btn btn-primary bi bi-file-earmark-plus " @onclick="Nuevo"> Nuevo <i class="oi oi-file " /></button>
-                    <button type="submit" class="btn btn-success bi bi-floppy"> Guardar <i class="oi oi-document" /></button>
-                    <button type="button" class="btn btn-danger bi bi-trash3" @onclick="Eliminar"> Eliminar <i class="oi oi-trash" /></button>
+                    <button type="submit" class="btn btn-primary bi bi-floppy"> Create <i class="oi oi-document" />
+                        </button>
                 </div>
             </div>
         </div>

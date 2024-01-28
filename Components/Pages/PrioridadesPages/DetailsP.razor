@@ -1,0 +1,57 @@
+﻿@page "/DetailsP"
+@inject PrioridadesService prioridadesService
+@rendermode InteractiveServer
+
+<PageTitle>Registro de Tickets</PageTitle>
+<EditForm Model="prioridad">
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header alert-secondary" style="color: white; background-color: royalblue;">
+                <NavLink class="btn btn-light float-end" href="/Create">Registrar nueva</NavLink> 
+                <h1><strong>Consultas</strong></h1>
+                <h3>Prioridades</h3>
+
+            </div>
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr class="text-center">
+                        <th>Descripción</th>
+                        <th>Días compromiso</th>
+                        <th>Editar</th>
+                        <th>Detalle</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var prioridad in prioridadesService.GetPrioridades())
+                    {
+                        <tr class="text-center">
+                            <td>@prioridad.Descripcion</td>
+                            <td>@prioridad.DiasCompromiso</td>
+                            <td><button class="btn btn-primary bi bi-pencil" @onclick="() => Editar(prioridad)"></button></td>
+                            <td><button class="btn btn-success bi bi-list-check" @onclick="() => Detalle(prioridad)"></button></td>
+                            <td><button class="btn btn-danger bi bi-trash" @onclick="() => prioridadesService.Eliminar(prioridad)"></button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    public Prioridades prioridad { get; set; } = new Prioridades();
+
+    public void Editar(Prioridades prioridad)
+    {
+        // Lógica para la edición
+    }
+
+    public void Detalle(Prioridades prioridad)
+    {
+        // Lógica para mostrar detalles
+    }
+    
+}

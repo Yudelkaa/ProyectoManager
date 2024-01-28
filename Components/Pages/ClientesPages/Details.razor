@@ -1,12 +1,15 @@
-﻿@page "/C_Consulta"
-@inject ClientesService clientesService
+﻿@page "/Details"
+@inject ClientesService clientesService;
+@rendermode InteractiveServer
 
 <PageTitle>Registro de Tickets</PageTitle>
 <EditForm Model="@clientesService">
     <div class="container">
         <div class="card shadow-lg">
-            <div class="card-header alert-secondary" style="color: white; background-color: black;">
-                <h3><strong>Consultas de clientes</strong></h3>
+            <div class="card-header alert-secondary" style="color: white; background-color: royalblue;">
+                <NavLink class="btn btn-light float-end" href="/R_Clientes">Registrar clientes</NavLink>
+                <h1><strong>Consultas</strong></h1>
+                <h3>Clientes</h3>
             </div>
             <table class="table table table-striped table table-bordered">
                 <thead>
