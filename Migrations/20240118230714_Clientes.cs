@@ -33,6 +33,8 @@ namespace ProyectoManager.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Clientes");
+
+           
         }
     }
 }

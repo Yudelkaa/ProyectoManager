@@ -12,18 +12,17 @@ namespace ProyectoManager.Models
         [Required(ErrorMessage = "Ingrese su nombre")]
         public string? Nombres { get; set; }
 
-
-        [RegularExpression("^[0-9]+$", ErrorMessage = "Ingrese el número correctamente")]
+        [Required(ErrorMessage = "Ingrese el número celular correctamente")]
         public long Celular { get; set; }
 
+        [Required(ErrorMessage = "Ingrese el teléfono correctamente")]
+        public long Telefono { get; set; }
 
         [Required(ErrorMessage = "Por favor, ingrese el RNC correctamente")]
-        public string? RNC { get; set; }
-
+        public long RNC { get; set; }
 
         [Required(ErrorMessage = "Por favor, complete el campo")]
         public string? Email { get; set; }
-
 
         [Required(ErrorMessage = "Por favor, ingrese su dirección")]
         public string? Direccion { get; set; }

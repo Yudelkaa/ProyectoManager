@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using ProyectoManager.BLL;
+using ProyectoManager.Services;
 using ProyectoManager.Components;
 using ProyectoManager.DAL;
 
@@ -21,9 +21,9 @@ namespace ProyectoManager
             //inyectar el contextopara que este disponible en los constructores donde los solicitemos
             builder.Services.AddDbContext<Contexto>(Options => Options.UseSqlite(ConStr));
 
-            //inyecté las BLL
-            builder.Services.AddScoped<PrioridadesBLL>();
-            builder.Services.AddScoped<ClientesBLL>();
+            //inyecté las Services
+            builder.Services.AddScoped<PrioridadesService>();
+            builder.Services.AddScoped<ClientesService>();
 
             var app = builder.Build();
 

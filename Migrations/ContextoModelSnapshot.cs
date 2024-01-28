@@ -42,7 +42,7 @@ namespace ProyectoManager.Migrations
 
                     b.HasKey("ClientesId");
 
-                    b.ToTable("Clientes");
+                    b.ToTable("Clientes", (string)null);
                 });
 
             modelBuilder.Entity("ProyectoManager.Models.Prioridades", b =>
@@ -60,7 +60,7 @@ namespace ProyectoManager.Migrations
 
                     b.HasKey("PrioridadesId");
 
-                    b.ToTable("Prioridades");
+                    b.ToTable("Prioridades", (string)null);
                 });
 #pragma warning restore 612, 618
         }

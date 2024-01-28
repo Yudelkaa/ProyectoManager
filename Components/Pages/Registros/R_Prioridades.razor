@@ -1,5 +1,5 @@
 ﻿@page "/R_Prioridades"
-@inject PrioridadesBLL prioridadesBLL;
+@inject PrioridadesService prioridadesService;
 @rendermode InteractiveServer
 
 <PageTitle>Registro de Tickets</PageTitle>
@@ -57,7 +57,7 @@
 
     public async Task Buscar()
     {
-        var encontrado = await prioridadesBLL.FindAsync(prioridad.PrioridadesId);
+        var encontrado = await prioridadesService.FindAsync(prioridad.PrioridadesId);
         if (encontrado != null)
             prioridad = encontrado;
         else
@@ -66,7 +66,7 @@
 
     public async Task Guardar()
     {
-        var guardo = await prioridadesBLL.Guardar(prioridad);
+        var guardo = await prioridadesService.Guardar(prioridad);
         if (guardo)
         {
             mensaje = "Se guardó";
@@ -84,7 +84,7 @@
 
     public async Task Eliminar()
     {
-        var eliminado = await prioridadesBLL.Eliminar(prioridad);
+        var eliminado = await prioridadesService.Eliminar(prioridad);
 
         if (eliminado)
         {

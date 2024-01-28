@@ -5,52 +5,52 @@ using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 
 
-namespace ProyectoManager.BLL
+namespace ProyectoManager.Services
 {
-    public class ClientesBLL
+    public class ClientesService
     {
         private readonly Contexto _contextoClientes;
 
-        public ClientesBLL(Contexto contextoClientes)
+        public ClientesService(Contexto contextoCliente)
         {
-            _contextoClientes = contextoClientes;
+            _contextoClientes = contextoCliente;
         }
-        public async Task<bool> Guardar(Clientes clientes)
+        public async Task<bool> Guardar(Clientes cliente)
         {
-            if (!Validar(clientes))
+            if (!Validar(cliente))
             {
-                if (!await Existe(clientes.ClientesId))
-                    return await Insertar(clientes);
+                if (!await Existe(cliente.ClientesId))
+                    return await Insertar(cliente);
                 else
-                    return await Modificar(clientes);
+                    return await Modificar(cliente);
             }
             return false;
         }
 
-        private async Task<bool> Insertar(Clientes clientes)
+        private async Task<bool> Insertar(Clientes cliente)
         {
-            _contextoClientes.Clientes.Add(clientes);
+            _contextoClientes.Clientes.Add(cliente);
             return await _contextoClientes.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> Modificar(Clientes clientes)
+        public async Task<bool> Modificar(Clientes cliente)
         {
-            _contextoClientes.Update(clientes);
+            _contextoClientes.Update(cliente);
             return await _contextoClientes.SaveChangesAsync() > 0;
         }
 
-		public bool Validar(Clientes clientes)
+		public bool Validar(Clientes cliente)
 		{
 			var encontrado = (_contextoClientes.Clientes.Any(p => p.Nombres!.ToLower()
-		   == clientes.Nombres!.ToLower()));
+		   == cliente.Nombres!.ToLower()));
 
 			return encontrado;
 		}
 
-		public async Task<bool> Eliminar(Clientes clientes)
+		public async Task<bool> Eliminar(Clientes cliente)
         {
             var cantidad = await _contextoClientes.Clientes
-                .Where(p => p.ClientesId == clientes.ClientesId)
+                .Where(p => p.ClientesId == cliente.ClientesId)
                 .ExecuteDeleteAsync();
 
             return cantidad > 0;

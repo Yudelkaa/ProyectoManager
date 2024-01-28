@@ -1,8 +1,8 @@
 ﻿@page "/C_Consulta"
-@inject ClientesBLL clientesBLL
+@inject ClientesService clientesService
 
 <PageTitle>Registro de Tickets</PageTitle>
-<EditForm Model="@clientes">
+<EditForm Model="@clientesService">
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header alert-secondary" style="color: white; background-color: black;">
@@ -14,18 +14,20 @@
                         <th>ID</th>  
                         <th>Nombre</th>
                         <th>Celular</th>
+                        <th>Telefono</th>
                         <th>RNC</th>
                         <th>Email</th>
-                        <th>Dirección</th>
+                        <th>Direccion</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var cliente in clientesBLL.GetClientes())
+                    @foreach (var cliente in clientesService.GetClientes())
                     {
                         <tr>
                             <td>@cliente.ClientesId</td>
                             <td>@cliente.Nombres</td>
                             <td>@cliente.Celular</td>
+                            <td>@cliente.Telefono</td>
                             <td>@cliente.RNC</td>
                             <td>@cliente.Email</td>
                             <td>@cliente.Direccion</td>
@@ -38,5 +40,5 @@
 </EditForm>
 
 @code {
-    public Clientes clientes { get; set; } = new Clientes();
+
 }

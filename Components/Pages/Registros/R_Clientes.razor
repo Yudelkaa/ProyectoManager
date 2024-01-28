@@ -1,5 +1,5 @@
 ﻿@page "/R_Clientes"
-@inject ClientesBLL clientesBLL;
+@inject ClientesService clientesService;
 @rendermode InteractiveServer
 
 <PageTitle>Registro de Tickets</PageTitle>
@@ -28,7 +28,7 @@
                  @*Nombre*@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
-                        <label class="form-label" for="Nombres"><strong>Nombres:</strong></label>
+                        <label class="form-label" for="Nombres"><strong>Nombre:</strong></label>
                         <InputText @bind-Value="clientes.Nombres" class="form-control" />
                         <ValidationMessage For="@(() => clientes.Nombres)" />
                     </div>
@@ -41,11 +41,20 @@
                         <ValidationMessage For="@(() => clientes.Celular)" />
                     </div>
                 </div>
+
+                @*Telefono*@
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="Telefono"><strong>Tel&eacute;fono:</strong></label>
+                        <InputNumber @bind-Value="clientes.Telefono" class="form-control" />
+                        <ValidationMessage For="@(() => clientes.Telefono)" />
+                    </div>
+                </div>
                 @*RNC*@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
                         <label class="form-label" for="RNC"><strong>RNC:</strong></label>
-                        <InputText @oninput ="@(e => volverMayusculas((string?)e.Value))" @bind-Value="clientes.RNC" class="form-control" />
+                        <InputNumber @bind-Value="clientes.RNC" class="form-control" />
                         <ValidationMessage For="@(() => clientes.RNC)" />
                     </div>
                 </div>
@@ -93,7 +102,7 @@
 
     public async Task Buscar()
     {
-        var encontrado = await clientesBLL.FindAsync(clientes.ClientesId);
+        var encontrado = await clientesService.FindAsync(clientes.ClientesId);
         if (encontrado != null)
             clientes = encontrado;
         else
@@ -102,7 +111,7 @@
 
     public async Task Guardar()
     {
-        var guardo = await clientesBLL.Guardar(clientes);
+        var guardo = await clientesService.Guardar(clientes);
 
         if (guardo)
         {
@@ -122,7 +131,7 @@
 
     public async Task Eliminar()
     {
-        var eliminado = await clientesBLL.Eliminar(clientes);
+        var eliminado = await clientesService.Eliminar(clientes);
 
         if (eliminado)
         {
@@ -132,11 +141,5 @@
         {
             mensaje = "No se pudo eliminar el cliente";
         }
-    }
-
-    public void volverMayusculas(string? valor)
-    {
-        if (valor != null)
-            clientes.RNC = (string)valor.ToUpper();
     }
 }

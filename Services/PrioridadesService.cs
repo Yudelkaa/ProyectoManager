@@ -4,13 +4,13 @@ using ProyectoManager.Models;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 
-namespace ProyectoManager.BLL
+namespace ProyectoManager.Services
 {
-    public class PrioridadesBLL
+    public class PrioridadesService
     {
         private readonly Contexto _contexto;
 
-        public PrioridadesBLL(Contexto contexto)
+        public PrioridadesService(Contexto contexto)
         {
             _contexto = contexto;
         }
@@ -22,30 +22,30 @@ namespace ProyectoManager.BLL
                 return await Modificar(prioridad);
         }
 
-        private async Task<bool> Insertar(Prioridades prioridades)
+        private async Task<bool> Insertar(Prioridades prioridad)
         {
-            _contexto.Prioridades.Add(prioridades);
+            _contexto.Prioridades.Add(prioridad);
             return await _contexto.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> Modificar(Prioridades prioridades)
+        public async Task<bool> Modificar(Prioridades prioridad)
         {
-            _contexto.Update(prioridades);
+            _contexto.Update(prioridad);
             return await _contexto.SaveChangesAsync() > 0;
         }
 
-        public Task<bool> Validar(Prioridades prioridades)
+        public Task<bool> Validar(Prioridades prioridad)
         {
              var encontrado =  (_contexto.Prioridades.Any(p => p.Descripcion!.ToLower()
-            == prioridades.Descripcion!.ToLower()));
+            == prioridad.Descripcion!.ToLower()));
 
             return Task.FromResult(encontrado);
         }
 
-        public async Task<bool> Eliminar(Prioridades prioridades)
+        public async Task<bool> Eliminar(Prioridades prioridad)
         {
             var cantidad = await _contexto.Prioridades
-                .Where(p => p.PrioridadesId == prioridades.PrioridadesId)
+                .Where(p => p.PrioridadesId == prioridad.PrioridadesId)
                 .ExecuteDeleteAsync();
 
             return cantidad > 0;
@@ -73,8 +73,8 @@ namespace ProyectoManager.BLL
 
         public List<Prioridades> GetPrioridades()
         {
-            var prioridades = _contexto.Prioridades.ToList();
-            return prioridades;
+            var prioridad = _contexto.Prioridades.ToList();
+            return prioridad;
         }
 
         public async Task<Prioridades?> FindAsync(int id)
