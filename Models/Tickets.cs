@@ -1,7 +1,11 @@
-﻿namespace ProyectoManager.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProyectoManager.Models
 {
+	
 	public class Tickets
 	{
+		[Key]
 		public int TicketId { get; set; }
 		public DateTime Fecha {  get; set; }
 		public int ClienteId { get; set;}
