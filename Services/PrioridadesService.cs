@@ -28,12 +28,14 @@ namespace ProyectoManager.Services
             return await _contexto.SaveChangesAsync() > 0;
         }
 
+   
         public async Task<bool> Modificar(Prioridades prioridad)
         {
             _contexto.Update(prioridad);
-            return await _contexto.SaveChangesAsync() > 0;
+            var modifico = await _contexto.SaveChangesAsync() > 0;
+            _contexto.Entry(prioridad).State = EntityState.Detached;
+            return modifico;
         }
-
         public Task<bool> Validar(Prioridades prioridad)
         {
              var encontrado =  (_contexto.Prioridades.Any(p => p.Descripcion!.ToLower()

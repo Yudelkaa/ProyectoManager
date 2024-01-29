@@ -7,10 +7,10 @@ namespace ProyectoManager.Services
 {
 	public class TicketsService
 	{
-		private readonly Contexto _contextoTickets;
-		public TicketsService(Contexto contextoTickets)
+		private readonly Contexto _contexto;
+		public TicketsService(Contexto contexto)
 		{
-			_contextoTickets = contextoTickets;
+			_contexto = contexto;
 		}
 
 		public async Task<bool> Guardar(Tickets ticket)
@@ -27,19 +27,19 @@ namespace ProyectoManager.Services
 
 		private async Task<bool> Insertar(Tickets ticket)
 		{
-			_contextoTickets.Tickets.Add(ticket);
-			return await _contextoTickets.SaveChangesAsync() > 0;
+			_contexto.Tickets.Add(ticket);
+			return await _contexto.SaveChangesAsync() > 0;
 		}
 
 		public async Task<bool> Modificar(Tickets ticket)
 		{
-			_contextoTickets.Update(ticket);
-			return await _contextoTickets.SaveChangesAsync() > 0;
+			_contexto.Update(ticket);
+			return await _contexto.SaveChangesAsync() > 0;
 		}
 
 		public bool Validar(Tickets ticket)
 		{
-			var encontrado = _contextoTickets.Tickets.Any(p => p.Descripcion!.ToLower()
+			var encontrado = _contexto.Tickets.Any(p => p.Descripcion!.ToLower()
 		   == ticket.Descripcion!.ToLower());
 
 			return encontrado;
@@ -47,7 +47,7 @@ namespace ProyectoManager.Services
 
 		public async Task<bool> Eliminar(Tickets ticket)
 		{
-			var cantidad = await _contextoTickets.Tickets
+			var cantidad = await _contexto.Tickets
 				.Where(p => p.TicketId == ticket.TicketId)
 				.ExecuteDeleteAsync();
 
@@ -56,32 +56,32 @@ namespace ProyectoManager.Services
        
         public async Task<Tickets?> Buscar(int ticketId)
 		{
-			return await _contextoTickets.Tickets
+			return await _contexto.Tickets
 				.AsNoTracking()
 				.FirstOrDefaultAsync(p => p.TicketId == ticketId);
 		}
 
 		public async Task<List<Tickets>> Listar(Expression<Func<Tickets, bool>> criterio)
 		{
-			return await _contextoTickets.Tickets.AsNoTracking().Where(criterio).ToListAsync();
+			return await _contexto.Tickets.AsNoTracking().Where(criterio).ToListAsync();
 		}
 
 		public async Task<bool> Existe(int ticketId)
 		{
-			return await _contextoTickets.Tickets
+			return await _contexto.Tickets
 				.AnyAsync(p => p.TicketId == ticketId);
 
 		}
 
 		public List<Tickets> GetTickets()
 		{
-			var tickets = _contextoTickets.Tickets.ToList();
+			var tickets = _contexto.Tickets.ToList();
 			return tickets;
 		}
 
 		public async Task<Tickets?> FindAsync(int id)
 		{
-			return await _contextoTickets.Tickets.FindAsync(id);
+			return await _contexto.Tickets.FindAsync(id);
 		}
 	}
 }
