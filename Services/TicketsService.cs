@@ -74,7 +74,7 @@ namespace ProyectoManager.Services
 		}
 
 		public List<Tickets> GetTickets()
-		{
+		{ 
 			var tickets = _contexto.Tickets.ToList();
 			return tickets;
 		}

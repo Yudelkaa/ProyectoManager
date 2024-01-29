@@ -21,32 +21,33 @@
                     <th>Eliminar</th>
                 </tr>
             </thead>
-
             <tbody>
-                @foreach (var prioridadItem in prioridadesService.GetPrioridades())
+                @foreach (var prioridad in prioridadesService.GetPrioridades())
                 {
-                    <tr class="text-center" >
-                        <td>@prioridadItem.Descripcion</td>
-                        <td>@prioridadItem.DiasCompromiso</td>
-						<td><button class="btn btn-primary bi bi-pencil" @onclick="() => Editar(prioridadItem)"></button></td>
-						<td><button class="btn btn-danger bi bi-trash" @onclick="() => prioridadesService.Eliminar(prioridadItem)"></button></td>
-                        
+                    <tr class="text-center">
+                        <td>@prioridad.Descripcion</td>
+                        <td>@prioridad.DiasCompromiso</td>
+                        <td><button class="btn btn-primary bi bi-pencil" @onclick="() => Editar(prioridad)"></button></td>
+                        <td><button class="btn btn-danger bi bi-trash" @onclick="() => prioridadesService.Eliminar(prioridad)"></button></td>
                     </tr>
-                    @if (prioridad != null && prioridad.PrioridadesId == prioridadItem.PrioridadesId)
+                    @if (prioridadEditando == prioridad.PrioridadesId)
                     {
                         <tr>
-                            <td colspan="4" >
-                                 <EditForm Model="prioridad" OnValidSubmit="EditarPrioridad" FormName="prioridades">
-                                    <div class="form-group ">
+                            <td colspan="4">
+                                <EditForm Model="prioridad" OnValidSubmit="() => GuardarPrioridad(prioridad.PrioridadesId)" FormName="prioridades">
+                                    <div class="form-group">
                                         <label for="Descripcion">Descripción:</label>
                                         <input id="Descripcion" @bind="prioridad.Descripcion" class="form-control" />
                                     </div>
-                                    <div class="form-group col-span-4">
+                                    <div class="form-group">
                                         <label for="DiasCompromiso">Días compromiso:</label>
                                         <input id="DiasCompromiso" @bind="prioridad.DiasCompromiso" class="form-control" />
                                     </div>
-                                    <button type="submit" class="btn btn-success bi bi-floppy">Guardar<i class="oi oi-document" /></button>
-                                     </EditForm>
+                                    <div class="form-group">
+                                        <span class="text-danger">@mensaje</span>
+                                    </div>
+                                    <button type="submit" class="btn btn-success bi bi-floppy">Guardar</button>
+                                </EditForm>
                             </td>
                         </tr>
                     }
@@ -58,42 +59,29 @@
 
 @code {
     public Prioridades prioridad { get; set; } = new Prioridades();
-    public string? mensaje = "";
+    public string mensaje = string.Empty;
+    public int? prioridadEditando = null;
 
-    private void Editar(Prioridades prioridadItem)
+    private void Editar(Prioridades prioridad)
     {
         this.prioridad = new Prioridades
             {
-                PrioridadesId = prioridadItem.PrioridadesId,
-                Descripcion = prioridadItem.Descripcion,
-                DiasCompromiso = prioridadItem.DiasCompromiso
+                PrioridadesId = prioridad.PrioridadesId,
+                Descripcion = prioridad.Descripcion,
+                DiasCompromiso = prioridad.DiasCompromiso
             };
+        prioridadEditando = prioridad.PrioridadesId;
     }
 
-    private async Task EditarPrioridad()
+    private async Task GuardarPrioridad(int prioridadId)
     {
-        await prioridadesService.Modificar(prioridad);
-        prioridad = null;
-    }
-
-    public async Task Guardar()
-    {
-        var guardo = await prioridadesService.Guardar(prioridad);
-
-        if (guardo)
+        if (!string.IsNullOrEmpty(prioridad.Descripcion))
         {
-            mensaje = "Se guardó correctamente";
+            await prioridadesService.Guardar(prioridad);
         }
         else
         {
-            mensaje = "No se pudo guardar, intente de nuevo";
+            mensaje = "La descripción no puede ser nula";
         }
     }
-
-    void Nuevo()
-    {
-        this.prioridad = new Prioridades();
-        mensaje = string.Empty;
-    }
-
 }
