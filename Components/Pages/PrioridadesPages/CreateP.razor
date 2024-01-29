@@ -1,4 +1,4 @@
-﻿@page "/Create"
+﻿@page "/CreateP"
 @inject PrioridadesService prioridadesService;
 @rendermode InteractiveServer
 
@@ -9,7 +9,7 @@
     <div class="container">
         <div class="card shadow-lg">
              <div class="card-header" style="color: white; background-color: royalblue;">
-                <NavLink class="btn btn-light float-end" href="DetailsP">Consultar prioridades</NavLink> 
+                <NavLink class="btn btn-light float-end" href="DetailsP">Consultar Prioridades</NavLink> 
                 <h1><strong>Crear</strong></h1>
                 <h3>Prioridades</h3>
             </div>
@@ -17,7 +17,7 @@
 
                 @*Prioridades Id:*@
                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
-                    <label>Id prioridades:</label>
+                    <label><strong>Id prioridades:</strong></label>
                     <div class="input-group mb-3">
                         <InputNumber @bind-Value="prioridad.PrioridadesId" class="form-control" 
                         aria-describedby="BotonBuscar" />
@@ -29,14 +29,14 @@
                 @*Descripcion*@
 
                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
-                    <label class="form-label" for="Descripcion">Descripci&oacute;n:</label>
+                    <label class="form-label" for="Descripcion"><strong>Descripci&oacute;n:</strong></label>
                     <InputText @bind-Value="prioridad.Descripcion" class="form-control" />
                     <ValidationMessage For="@(() => prioridad.Descripcion)" class="text-danger" />
                 </div>
 
                 @*Dias Compromiso*@
                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
-                    <label class="form-label" for="DiasCompromiso">D&iacute;as de compromiso:</label>
+                    <label class="form-label" for="DiasCompromiso"><strong>D&iacute;as de compromiso:</strong></label>
                     <InputNumber @bind-Value="prioridad.DiasCompromiso" class="form-control" />
                     <ValidationMessage For="@(() => prioridad.DiasCompromiso)" />
                 </div>

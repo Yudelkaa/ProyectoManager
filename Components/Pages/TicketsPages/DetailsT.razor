@@ -1,0 +1,58 @@
+﻿@page "/DetailsT"
+@inject TicketsService ticketsService
+@inherits LayoutComponentBase
+
+<PageTitle>Registro de Tickets</PageTitle>
+<EditForm Model="ticket">
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header alert-secondary" style="color: white; background-color: royalblue;">
+                <NavLink class="btn btn-light float-end" href="/Create">Registrar Tickets</NavLink>
+                <h1><strong>Consultas</strong></h1>
+                <h3>Tickets</h3>
+            </div>
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr class="text-center">
+                        <th>ClienteId</th>
+                        <th>Fecha</th>
+                        <th>PrioridadId</th>
+                        <th>SolicitadoPor</th>
+                        <th>Asunto</th>
+                        <th>Descripcion</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var ticket in ticketsService.GetTickets())
+                    {
+                        <tr class="text-center">
+                            <td>@ticket.ClienteId</td>
+                            <td>@ticket.Fecha</td>
+                            <td>@ticket.PrioridadId</td>
+                            <td>@ticket.SolicitadoPor</td>
+                            <td>@ticket.Asunto</td>
+                            <td>@ticket.Descripcion</td>
+                          
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    public Tickets ticket { get; set; } = new Tickets();
+
+    public void Editar(Tickets ticket)
+    {
+        // Lógica para la edición
+    }
+
+    public void Detalle(Tickets ticket)
+    {
+        // Lógica para mostrar detalles
+    }
+}

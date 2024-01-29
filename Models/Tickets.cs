@@ -7,11 +7,14 @@ namespace ProyectoManager.Models
 	{
 		[Key]
 		public int TicketId { get; set; }
+		
+		[DataType(DataType.Date)]
+        [Range(typeof(DateTime), "1900-01-01", "2100-12-31")]
+        [Required(ErrorMessage = "Es requerido")]
+		public DateTime? Fecha { get; set; }
+        
 
-		[Required(ErrorMessage = "Es requerido")]
-		public DateTime Fecha { get; set; }
-
-		[Required(ErrorMessage = "Es requerido")]
+        [Required(ErrorMessage = "Es requerido")]
 		public int ClienteId { get; set; }
 
 		[Range(1, int.MaxValue, ErrorMessage = "Debe ser válido")]
@@ -28,5 +31,6 @@ namespace ProyectoManager.Models
 
 		[Required(ErrorMessage = "Es requerido")]
 		public string? Descripcion { get; set; }
-	}
+       
+    }
 }

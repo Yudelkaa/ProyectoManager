@@ -1,35 +1,5 @@
 ﻿<h3>Delete</h3>
 
-@*<button type="button" class="btn btn-danger bi bi-trash3" @onclick="Eliminar"> Eliminar <i class="oi oi-trash" /></button>
-
- <div class="mb-3">
-                <label for="prioridad">Filtrar:</label>
-                <InputSelect id="prioridad" @bind-Value="prioridad.Descripcion" class="form-select">
-                    <option value="">Todas</option>
-                    @foreach (var prioridades in prioridadesService.GetPrioridades())
-                    {
-                        <option value="@prioridades.Descripcion">@prioridades.Descripcion</option>
-                    }
-                </InputSelect>
-            </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
-                    <label class="form-label" for="Descripcion">Descripci&oacute;n:</label>
-                    <InputText @bind-Value="prioridad.Descripcion" class="form-control" />
-                    <ValidationMessage For="@(() => prioridad.Descripcion)" class= "text-danger" />
-                </div>
-
-                 <div class="mb-3">
-                    <label for="prioridad">Descripci&oacute;n:</label>
-                    <InputSelect id="prioridad" @bind-Value="prioridad.Descripcion" class="form-select">
-
-                        @foreach (var prioridades in prioridadesService.GetPrioridades())
-                        {
-                            <option value="@prioridades.Descripcion">@prioridades.Descripcion</option>
-                        }
-                    </InputSelect>
-                </div>
-*@
 
 @code {
 
