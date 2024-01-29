@@ -8,9 +8,9 @@ namespace ProyectoManager.Services
 	public class TicketsService
 	{
 		private readonly Contexto _contextoTickets;
-		public TicketsService(Contexto contextoCliente)
+		public TicketsService(Contexto contextoTickets)
 		{
-			_contextoTickets = contextoCliente;
+			_contextoTickets = contextoTickets;
 		}
 
 		public async Task<bool> Guardar(Tickets ticket)
@@ -47,18 +47,18 @@ namespace ProyectoManager.Services
 
 		public async Task<bool> Eliminar(Tickets ticket)
 		{
-			var cantidad = await _contextoTickets.Clientes
-				.Where(p => p.ClientesId == ticket.TicketId)
+			var cantidad = await _contextoTickets.Tickets
+				.Where(p => p.TicketId == ticket.TicketId)
 				.ExecuteDeleteAsync();
 
 			return cantidad > 0;
 		}
-
-		public async Task<Tickets?> Buscar(int clientesId)
+       
+        public async Task<Tickets?> Buscar(int ticketId)
 		{
 			return await _contextoTickets.Tickets
 				.AsNoTracking()
-				.FirstOrDefaultAsync(p => p.TicketId == clientesId);
+				.FirstOrDefaultAsync(p => p.TicketId == ticketId);
 		}
 
 		public async Task<List<Tickets>> Listar(Expression<Func<Tickets, bool>> criterio)

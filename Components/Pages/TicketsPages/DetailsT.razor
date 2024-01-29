@@ -1,9 +1,9 @@
 ﻿@page "/DetailsT"
 @inject TicketsService ticketsService
-@inherits LayoutComponentBase
+@rendermode InteractiveServer
 
 <PageTitle>Registro de Tickets</PageTitle>
-<EditForm Model="ticket">
+<EditForm Model="ticket" FormName="tickets">
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header alert-secondary" style="color: white; background-color: royalblue;">
@@ -15,12 +15,16 @@
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr class="text-center">
+                        <th>TicketId</th>
                         <th>ClienteId</th>
                         <th>Fecha</th>
                         <th>PrioridadId</th>
                         <th>SolicitadoPor</th>
+                        <th>SistemaId</th>
                         <th>Asunto</th>
                         <th>Descripcion</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
                     </tr>
                 </thead>
 
@@ -28,23 +32,30 @@
                     @foreach (var ticket in ticketsService.GetTickets())
                     {
                         <tr class="text-center">
+                            <td>@ticket.TicketId</td>
                             <td>@ticket.ClienteId</td>
                             <td>@ticket.Fecha</td>
                             <td>@ticket.PrioridadId</td>
                             <td>@ticket.SolicitadoPor</td>
+                            <td>@ticket.SistemaId</td>
                             <td>@ticket.Asunto</td>
                             <td>@ticket.Descripcion</td>
-                          
+                            <td><button class="btn btn-primary bi bi-pencil" @onclick="() => Editar(ticket)"></button></td>
+                            <td><button class="btn btn-danger bi bi-trash" @onclick="() => ticketsService.Eliminar(ticket)"></button></td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
+        @mensaje
     </div>
 </EditForm>
 
 @code {
+
+    
     public Tickets ticket { get; set; } = new Tickets();
+    public string mensaje = "";
 
     public void Editar(Tickets ticket)
     {
@@ -55,4 +66,5 @@
     {
         // Lógica para mostrar detalles
     }
+
 }
