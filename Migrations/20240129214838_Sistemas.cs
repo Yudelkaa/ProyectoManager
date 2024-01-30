@@ -5,7 +5,7 @@
 namespace ProyectoManager.Migrations
 {
     /// <inheritdoc />
-    public partial class Sistemas : Migration
+    public partial class Sistema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

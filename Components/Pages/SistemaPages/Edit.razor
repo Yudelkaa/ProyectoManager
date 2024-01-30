@@ -1,0 +1,99 @@
+﻿@page "/Edit"
+@page "/Edit/SistemaId={sistemaId:int}"
+@rendermode InteractiveServer
+@inject SistemasService sistemasService
+@inject NavigationManager NavigationManager
+
+
+<PageTitle>Editar Sistema</PageTitle>
+<EditForm Model="sistema" OnValidSubmit="Modificar">
+    <DataAnnotationsValidator />
+    <div class="container">
+        <did class="card shadow-lg">
+            @*Header*@
+            <div class="card-header">
+                <h3><strong>Editar Sistema</strong></h3>
+            </div>
+            @*Body*@
+            <div class="card-body">
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4"></div>
+                @*Id*@
+                <div class="mb-3">
+                    <div class="col-4">
+                        <label class="form-label" for="sistemaid"><strong>Id:</strong></label>
+                        <div class="input-group">
+                            <InputNumber id="sistemaid" class="form-control" @bind-Value="sistema.ID"></InputNumber>
+                        </div>
+                    </div>
+                </div>
+                @*Nombre*@
+                <div class="mb-3">
+                    <div class="col-4">
+                        <label class="form-label" for="nombre"><strong>Nombre:</strong></label>
+                        <InputText id="nombre" class="form-control" @bind-Value="sistema.Nombre" placeholder="Ej: Fulana de tal"></InputText>
+                        <ValidationMessage For="@(() => sistema.Nombre)"></ValidationMessage>
+                    </div>
+                </div>
+            </div>
+            @*Boton*@
+            <div class="card-footer d-flex justify-content-center">
+                <div class="px-2">
+                    <button type="button" class="btn btn-primary" @onclick="IrAPaginaDestino">Volver</button>
+                </div>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-floppy-fill" /> Modificar
+                </button>
+
+            </div>
+        </did>
+    </div>
+    @mensaje
+</EditForm>
+
+@code {
+    [Parameter]
+    public int sistemaId { get; set; }
+    public Sistemas sistema { get; set; } = new Sistemas();
+    public string mensaje { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(500);
+
+        if (sistemaId > 0)
+            sistema = await sistemasService.BuscarId(sistemaId);
+    }
+
+    public async Task Modificar()
+    {
+        if (await Validar())
+            mensaje = "Error, ya existe un sistema con este nombre";
+        else
+        {
+            var modificar = await sistemasService.Modificar(sistema);  
+            if (modificar)
+            {
+                mensaje = "Modificación hecha correctamente";
+                await Task.Delay(2000);
+                IrAPaginaDestino();
+            }
+            else
+                mensaje = "Error";
+        }
+    }
+
+
+    void IrAPaginaDestino()
+    {
+        NavigationManager.NavigateTo("/DetailsS");
+    }
+
+    public async Task<bool> Validar()
+    {
+        var validar = await sistemasService.BuscarSistema(sistema.Nombre);
+        if (validar != null)
+            return true;
+
+        return false;
+    }
+}

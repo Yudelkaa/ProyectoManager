@@ -12,7 +12,7 @@ namespace ProyectoManager.Migrations
 {
     [DbContext(typeof(Contexto))]
     [Migration("20240129214838_Sistemas")]
-    partial class Sistemas
+    partial class Sistema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

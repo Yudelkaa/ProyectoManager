@@ -1,0 +1,75 @@
+﻿@page "/DetailsS"
+@rendermode InteractiveServer
+@inject SistemasService sistemasService;
+@inject NavigationManager NavigationManager;
+
+<PageTitle>Registro Tickets</PageTitle>
+<div class="container">
+	<div class="card shadow-lg">
+		@*Header*@
+		<div class="card-header">
+			<div class="card-header alert-secondary" style="color: white; background-color: royalblue;">
+				<NavLink class="btn btn-light float-end" href="/CreateS">Registrar Clientes</NavLink>
+				<h1><strong>Consulta</strong></h1>
+				<h3>Sistema</h3>
+				<button type="button" class="btn btn-primary" @onclick="VolverAInicio">Ver Sistemas</button>
+			</div>
+			@*Body*@
+			<div class="card-body">
+				<div class="input-group mb-3">
+					<div class="col-xs-8 col-sm-12 col-md-8 col-lg-3 col-xl-2.5">
+						@if (sistemasList.Count == 0)
+						{
+							<p>Loading...</p>
+						}
+						else
+						{
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>Sistema_Id</th>
+										<th>Nombre</th>
+										<th>Editar</th>
+										<th>Eliminar</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var sistemas in sistemasList)
+									{
+										<tr class="d-flex">
+											<td>@sistemas.ID</td>
+											<td>@sistemas.Nombre</td>
+											<td><a href="/Edit/ID=@sistemas.ID"><em><i class="bi bi-pencil-square" /></em></a></td>
+											<td><a href="/Delete/ID=@sistemas.ID"><em><i class="bi bi-trash3-fill" /></em></a></td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						}
+					</div>
+				</div>
+			</div>
+			@*Footer*@
+			<div class="card-footer">
+				<p><strong>Total de Sistemas:</strong> @sistemasList.Count</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+@code {
+	public Sistemas sistema { get; set; } = new Sistemas();
+	public List<Sistemas> sistemasList = new List<Sistemas>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Delay(500);
+		Expression<Func<Sistemas, bool>> criterio = sistema => sistema.ID > 0;
+		sistemasList = await sistemasService.Listar(criterio);
+	}
+
+	void VolverAInicio()
+	{
+		NavigationManager.NavigateTo("/sistemas");
+	}
+		}

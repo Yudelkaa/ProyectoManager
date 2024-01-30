@@ -1,15 +1,14 @@
-﻿@page "/R_Clientes"
+﻿@page "/Create"
 @inject ClientesService clientesService;
 @rendermode InteractiveServer
 
 <PageTitle>Registro de Tickets</PageTitle>
-
 <EditForm Model="clientes" OnValidSubmit="Guardar">
     <DataAnnotationsValidator/>
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header alert-secondary" style="color: white; background-color: royalblue;">
-                <NavLink class="btn btn-light float-end" href="/Details">Consultar Clientes</NavLink>
+                <NavLink class="btn btn-light float-end" href="Details">Consultar Clientes</NavLink>
                 <h1><strong>Crear</strong></h1>
                 <h3>Clientes</h3>
             </div>
@@ -120,9 +119,7 @@
     {
         this.clientes = new Clientes();
         mensaje = string.Empty;
-    }
-
-   
+    }  
 }
 
 

@@ -1,53 +1,70 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProyectoManager.DAL;
 using ProyectoManager.Models;
+using ProyectoManager.DAL;
+using System.Linq.Expressions;
 
-namespace ProyectoManager.Services
+namespace ProyectoManager.Services;
+
+public class SistemasService
 {
-    public class SistemasService
+    private readonly Contexto _contexto;
+
+    public SistemasService(Contexto contexto)
     {
-        private readonly Contexto _contexto;
+        _contexto = contexto;
+    }
 
-        public SistemasService(Contexto contexto)
-        {
-            _contexto = contexto;
-        }
+    public async Task<bool> Crear(Sistemas sistema)
+    {
+        if (!await Existe(sistema.ID))
+            return await Insertar(sistema);
+        else
+            return await Modificar(sistema);
+    }
 
-        public async Task<List<Sistemas>> ObtenerTodos()
-        {
-            return await _contexto.Sistemas.ToListAsync();
-        }
+    public async Task<bool> Insertar(Sistemas sistema)
+    {
+        _contexto.Sistemas.Add(sistema);
+        return await _contexto.SaveChangesAsync() > 0;
+    }
 
-        public async Task<Sistemas> ObtenerPorId(int id)
-        {
-            return await _contexto.Sistemas.FindAsync(id);
-        }
+    public async Task<bool> Modificar(Sistemas sistema)
+    {
+        _contexto.Update(sistema);
+        var modifico = await _contexto.SaveChangesAsync() > 0;
+        _contexto.Entry(sistema).State = EntityState.Detached;
+        return modifico;
+    }
 
-        public async Task<bool> Guardar(Sistemas sistema)
-        {
-            if (sistema.ID == 0)
-            {
-                _contexto.Sistemas.Add(sistema);
-            }
-            else
-            {
-                _contexto.Sistemas.Update(sistema);
-            }
+    public async Task<bool> Existe(int id)
+    {
+        return await _contexto.Sistemas.AnyAsync(s => s.ID == id);
+    }
 
-            return await _contexto.SaveChangesAsync() > 0;
-        }
+    public async Task<bool> Eliminar(Sistemas sistema)
+    {
+        var cantidad = await _contexto.Sistemas
+            .Where(s => s.ID == sistema.ID)
+            .ExecuteDeleteAsync();
+        return cantidad > 0;
+    }
 
-        public async Task<bool> Eliminar(int id)
-        {
-            var sistema = await _contexto.Sistemas.FindAsync(id);
+    public async Task<Sistemas?> BuscarId(int Id)
+    {
+        return await _contexto.Sistemas
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.ID == Id);
+    }
 
-            if (sistema == null)
-            {
-                return false;
-            }
+    public async Task<Sistemas?> BuscarSistema(string nombre)
+    {
+        return await _contexto.Sistemas
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Nombre == nombre);
+    }
 
-            _contexto.Sistemas.Remove(sistema);
-            return await _contexto.SaveChangesAsync() > 0;
-        }
+    public async Task<List<Sistemas>> Listar(Expression<Func<Sistemas, bool>> criterio)
+    {
+        return await _contexto.Sistemas.AsNoTracking().Where(criterio).ToListAsync();
     }
 }
