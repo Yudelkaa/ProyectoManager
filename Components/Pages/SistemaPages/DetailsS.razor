@@ -24,21 +24,40 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach (var sistemas in sistemasList)
+					@foreach (var sistema in sistemasList)
 					{
 						<tr class="text-center">
-							<td>@sistemas.ID</td>
-							<td>@sistemas.Nombre</td>
-							<td><a href="/Edit/ID=@sistemas.ID"><em><i class="btn btn-primary bi bi-pencil" /></em></a></td>
-							<td><a href="/Delete/ID=@sistemas.ID"><em><i class="btn btn-danger bi bi-trash" /></em></a></td>
+							<td>@sistema.ID</td>
+							<td>@sistema.Nombre</td>
+							<td><button class="btn btn-primary bi bi-pencil" @onclick="() => Editar(sistema)"></button></td>
+							<td><button class="btn btn-danger bi bi-trash" @onclick="() =>sistemasService.Eliminar(sistema)"></button></td>
+						</tr>
+					}
+					@if (sistemaEditando.HasValue)
+					{
+						<tr>
+							<td colspan="4">
+
+								<EditForm Model="sistema" OnValidSubmit="GuardarSistema">
+									<div class="form-group">
+										<label for="ID">ID:</label>
+										<input id="ID" @bind="sistema.ID" class="form-control" disabled />
+									</div>
+									<div class="form-group">
+										<label for="Nombre">Nombre:</label>
+										<input id="Nombre" @bind="sistema.Nombre" class="form-control" />
+									</div>
+									<div class="form-group">
+										<span class="text-danger">@mensaje</span>
+									</div>
+									<button type="submit" class="btn btn-success bi bi-floppy">Guardar Cambios</button>
+								</EditForm>
+							</td>
 						</tr>
 					}
 				</tbody>
 			</table>
 		</div>
-
-
-		@*Footer*@
 		<div class="card-footer">
 			<p>Sistemas registrados: @sistemasList.Count</p>
 		</div>
@@ -48,6 +67,8 @@
 @code {
 	public Sistemas sistema { get; set; } = new Sistemas();
 	public List<Sistemas> sistemasList = new List<Sistemas>();
+	public int? sistemaEditando = null;
+	public string mensaje = string.Empty;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -55,8 +76,24 @@
 		sistemasList = await sistemasService.Listar(criterio);
 	}
 
-	void VolverAInicio()
+	private async Task GuardarSistema()
 	{
-		NavigationManager.NavigateTo("/DetailsS");
+		bool exito = await sistemasService.Guardar(sistema);
+		if (exito)
+		{
+			mensaje = "Sistema guardado exitosamente";
+			sistemaEditando = null;
+		}
+		else
+		{
+			mensaje = "Error al guardar el sistema";
+		}
 	}
+
+	private void Editar(Sistemas sistema)
+	{
+		this.sistema = sistema;
+		sistemaEditando = sistema.ID;
+	}
+
 }

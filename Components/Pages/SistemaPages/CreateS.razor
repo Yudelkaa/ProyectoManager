@@ -62,7 +62,7 @@
 			mensaje = "Vuelva a intentarlo";
 		else
 		{
-			var crear = await sistemasService.Crear(sistema);
+			var crear = await sistemasService.Guardar(sistema);
 			if (crear)
 			{
 				mensaje = "Creado correctamente";

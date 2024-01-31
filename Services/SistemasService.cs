@@ -14,7 +14,7 @@ public class SistemasService
         _contexto = contexto;
     }
 
-    public async Task<bool> Crear(Sistemas sistema)
+    public async Task<bool> Guardar(Sistemas sistema)
     {
         if (!await Existe(sistema.ID))
             return await Insertar(sistema);
@@ -43,11 +43,12 @@ public class SistemasService
 
     public async Task<bool> Eliminar(Sistemas sistema)
     {
-        var cantidad = await _contexto.Sistemas
-            .Where(s => s.ID == sistema.ID)
-            .ExecuteDeleteAsync();
-        return cantidad > 0;
-    }
+
+		var cantidad = await _contexto.Sistemas
+			.Where(p => p.ID == sistema.ID)
+			.ExecuteDeleteAsync();
+		return cantidad > 0;
+	}
 
     public async Task<Sistemas?> BuscarId(int Id)
     {

@@ -15,15 +15,12 @@ namespace ProyectoManager.Services
 
 		public async Task<bool> Guardar(Tickets ticket)
 		{
-			if (!Validar(ticket))
-			{
-				if (!await Existe(ticket.TicketId))
-					return await Insertar(ticket);
-				else
-					return await Modificar(ticket);
-			}
-			return false;
-		}
+
+            if (ticket.TicketId == 0)
+                return await Insertar(ticket);
+            else
+                return await Modificar(ticket);
+        }
 
 		private async Task<bool> Insertar(Tickets ticket)
 		{
@@ -33,9 +30,18 @@ namespace ProyectoManager.Services
 
 		public async Task<bool> Modificar(Tickets ticket)
 		{
-			_contexto.Update(ticket);
-			return await _contexto.SaveChangesAsync() > 0;
-		}
+            if (ticket.TicketId != 0)
+            {
+                _contexto.Update(ticket);
+                var modifico = await _contexto.SaveChangesAsync() > 0;
+                return modifico;
+            }
+            else
+            {
+
+                return false;
+            }
+        }
 
 		public bool Validar(Tickets ticket)
 		{

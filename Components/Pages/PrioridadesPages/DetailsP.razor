@@ -28,7 +28,7 @@
                         <td>@prioridad.Descripcion</td>
                         <td>@prioridad.DiasCompromiso</td>
                         <td><button class="btn btn-primary bi bi-pencil" @onclick="() => Editar(prioridad)"></button></td>
-                        <td><button class="btn btn-danger bi bi-trash" @onclick="() => Eliminar(prioridad)"></button></td>
+                        <td><button class="btn btn-danger bi bi-trash" @onclick="() => prioridadesService.Eliminar(prioridad)"></button></td>
                     </tr>
                     @if (prioridadEditando == prioridad.PrioridadesId)
                     {
@@ -82,16 +82,5 @@
         prioridadEditando = prioridad.PrioridadesId;
     }
 
-    private async Task Eliminar(Prioridades prioridad)
-    {
-        bool exito = await prioridadesService.Eliminar(prioridad);
-        if (exito)
-        {
-            mensaje = "Prioridad eliminada exitosamente";
-        }
-        else
-        {
-            mensaje = "Error al eliminar la prioridad";
-        }
-    }
+
 }

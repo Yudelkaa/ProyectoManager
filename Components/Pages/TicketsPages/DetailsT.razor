@@ -3,7 +3,7 @@
 @rendermode InteractiveServer
 
 <PageTitle>Registro de Tickets</PageTitle>
-<EditForm Model="ticket" FormName="tickets">
+<EditForm Model="ticket" OnValidSubmit="GuardarTicket">
     <div class="container">
         <div class="card shadow-lg">
             <div class="card-header alert-secondary" style="color: white; background-color: royalblue;">
@@ -23,11 +23,9 @@
                         <th>SistemaId</th>
                         <th>Asunto</th>
                         <th>Descripcion</th>
-                        <th>Editar</th>
                         <th>Eliminar</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     @foreach (var ticket in ticketsService.GetTickets())
                     {
@@ -40,27 +38,33 @@
                             <td>@ticket.SistemaId</td>
                             <td>@ticket.Asunto</td>
                             <td>@ticket.Descripcion</td>
-                            <td><button class="btn btn-primary bi bi-pencil" @onclick="() => Editar(ticket)"></button></td>
                             <td><button class="btn btn-danger bi bi-trash" @onclick="() => ticketsService.Eliminar(ticket)"></button></td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-        @mensaje
+        <div>@mensaje</div>
     </div>
 </EditForm>
 
 @code {
-
-    
     public Tickets ticket { get; set; } = new Tickets();
     public string mensaje = "";
+    public int? ticketEditando = null;
 
-    public void Editar(Tickets ticket)
+    private async Task GuardarTicket()
     {
-        // Lógica para la edición
+        bool exito = await ticketsService.Guardar(ticket);
+        if (exito)
+        {
+            mensaje = "Ticket guardado exitosamente";
+            ticketEditando = null;
+        }
+        else
+        {
+            mensaje = "Error al guardar el ticket";
+        }
     }
-
 
 }
