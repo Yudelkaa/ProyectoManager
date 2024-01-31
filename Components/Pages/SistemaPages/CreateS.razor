@@ -3,53 +3,53 @@
 @inject SistemasService sistemasService
 @inject NavigationManager NavigationManager
 
-<PageTitle>Crear Nuevo Sistema</PageTitle>
+<PageTitle>Registro de Tickets</PageTitle>
 <EditForm Model="sistema" OnValidSubmit="Crear">
 	<DataAnnotationsValidator />
 	<div class="container">
-		<div class="card shadow-lg">
 
-			@*Header*@
-			<div class="card-header">
-				<div class="card-header alert-secondary" style="color: white; background-color: royalblue;">
-					<NavLink class="btn btn-light float-end" href="/DetailsS">Consultar Clientes</NavLink>
+		<div class="card shadow-lg">
+			<div class="card-header alert-secondary" style="color: white; background-color: royalblue;">
+				@*Header*@
+				<div>
+					<NavLink class="btn btn-light float-end" href="/DetailsS">Consultar Sistema</NavLink>
 					<h1><strong>Registrar</strong></h1>
 					<h3>Sistema</h3>
 				</div>
-				@*Body*@
-				<div class="card-body">
-					<div class="input-group mb-3>
-						@*Id*@
-						<div class="mb-3">
-							<div class="col-4">
-								<label class="form-label" for="ID"><strong>Id:</strong></label>
-								<InputNumber id="ID" class="form-control" @bind-Value="sistema.ID"></InputNumber>
-							</div>
+			</div>
+			@*Body*@
+			<div class="card-body">
+				<div>
+					@*Id*@
+					<div>
+						<div>
+							<label class="form-label" for="ID"><strong>Id:</strong></label>
+							<InputNumber id="ID" class="form-control" @bind-Value="sistema.ID"></InputNumber>
 						</div>
-					@*Nombre*@
-						<div class="mb-3">
-							<div class="col-4">
-								<label class="form-label" for="nombre"><strong>Nombre:</strong></label>
-								<InputText id="nombre" class="form-control" @bind-Value="sistema.Nombre" placeholder="Escriba un nombre para el sistema"></InputText>
-								<ValidationMessage For="@(() => sistema.Nombre)"></ValidationMessage>
-							</div>
+						<div>
+							<label class="form-label" for="nombre"><strong>Nombre:</strong></label>
+							<InputText id="nombre" class="form-control" @bind-Value="sistema.Nombre" placeholder="Escriba un nombre para el sistema"></InputText>
+							<ValidationMessage For="@(() => sistema.Nombre)"></ValidationMessage>
 						</div>
-					</div>
-				@*Boton*@
-					<div class="card-footer d-flex ">
-						<div class="px-2">
-							<button type="button" class="btn btn-primary" @onclick="VolverAInicio">Volver</button>
-
-							<button type="submit" class="btn btn-success">
-								<i class="bi bi-floppy" /> Guardar
-							</button>
-						</div>
+						
 					</div>
 				</div>
-			@mensaje
 			</div>
-		</div>
 
+			@*Boton*@
+			<div class="card-footer d-flex">
+				<div class="px-2">
+					<button type="button" class="btn btn-primary bi bi-list-columns-reverse" @onclick="Detalle"> Consultar</button>
+				</div>
+				<div>
+					<button type="submit" class="btn btn-success">
+						<i class="bi bi-floppy" /> Guardar
+					</button>
+				</div>
+			</div>
+			@mensaje
+		</div>
+	</div>
 </EditForm>
 
 @code {
@@ -89,8 +89,8 @@
 		mensaje = string.Empty;
 	}
 
-	void VolverAInicio()
+	void Detalle()
 	{
-		NavigationManager.NavigateTo("/sistemas");
+		NavigationManager.NavigateTo("/DetailsS");
 	}
 }

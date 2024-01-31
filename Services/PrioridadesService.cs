@@ -32,7 +32,7 @@ namespace ProyectoManager.Services
 
 		public async Task<bool> Modificar(Prioridades prioridad)
 		{
-			// Asegúrate de que PrioridadesId sea una clave primaria válida y no 0 si ya existe en la base de datos
+			
 			if (prioridad.PrioridadesId != 0)
 			{
 				_contexto.Update(prioridad);
@@ -41,7 +41,7 @@ namespace ProyectoManager.Services
 			}
 			else
 			{
-				// Maneja el escenario de error donde PrioridadesId es 0
+				
 				return false;
 			}
 		}

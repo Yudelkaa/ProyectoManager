@@ -38,7 +38,7 @@
             @*Boton*@
             <div class="card-footer d-flex justify-content-center">
                 <div class="px-2">
-                    <button type="button" class="btn btn-primary" @onclick="IrAPaginaDestino">Volver</button>
+                    <button type="button" class="btn btn-primary" @onclick="Detalle">Volver</button>
                 </div>
                 <button type="submit" class="btn btn-success">
                     <i class="bi bi-floppy-fill" /> Modificar
@@ -75,7 +75,7 @@
             {
                 mensaje = "Modificación hecha correctamente";
                 await Task.Delay(2000);
-                IrAPaginaDestino();
+                Detalle();
             }
             else
                 mensaje = "Error";
@@ -83,7 +83,7 @@
     }
 
 
-    void IrAPaginaDestino()
+    void Detalle()
     {
         NavigationManager.NavigateTo("/DetailsS");
     }
