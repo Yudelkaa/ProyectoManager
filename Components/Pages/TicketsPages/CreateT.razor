@@ -1,0 +1,131 @@
+﻿@page "/CreateT"
+@inject TicketsService ticketsService;
+@rendermode InteractiveServer
+
+<PageTitle>Registro Tickets</PageTitle>
+<EditForm Model="tickets" OnValidSubmit="Guardar" FormName="tickets">
+	<DataAnnotationsValidator/>
+    
+    <div class="container">
+        <div class="card shadow-lg">
+             <div class="card-header" style="color: white; background-color: royalblue;">
+                <NavLink class="btn btn-light float-end" href="DetailsT">Consultar Tickets</NavLink> 
+                <h1><strong>Crear</strong></h1>
+                <h3>Tickets</h3>
+            </div>
+            <div class=card-body>
+                @*Tickets Id:*@
+                <div class="col-xs-8 col-sm-12 col-md-8 col-lg-3 col-xl-2.5">
+                    <label><strong>Tickets ID:</strong></label>
+                    <div class="input-group mb-3">
+                        <InputNumber @bind-Value="tickets.TicketId" class="form-control"
+                                     aria-describedby="BotonBuscar" />
+                        <button @onclick="Buscar" class="btn btn-primary bi bi-search-heart" type="button"
+                                id="BotonBuscar"></button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @*Fecha*@
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="inputFecha"><strong>Fecha:</strong></label>
+                        <InputDate @bind-Value="tickets.Fecha" class="form-control" />
+                        <ValidationMessage For="@(() => tickets.Fecha)" />
+                    </div>
+
+                    @*ClienteID*@
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="ClienteID"><strong>Cliente ID:</strong></label>
+                        <InputNumber @bind-Value="tickets.ClienteId" class="form-control" />
+                        <ValidationMessage For="@(() => tickets.ClienteId)" />
+                    </div>
+			    </div>
+
+                <div class="row">
+
+                    @*SistemaId*@
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="SistemaId"><strong>Sistema ID:</strong></label>
+                        <InputNumber @bind-Value="tickets.SistemaId" class="form-control" />
+                        <ValidationMessage For="@(() => tickets.SistemaId)" />
+                    </div>
+
+                    @*PrioridadesId*@
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="PrioridadesId"><strong>Prioridades ID:</strong></label>
+                        <InputNumber @bind-Value="tickets.PrioridadId" class="form-control" />
+                        <ValidationMessage For="@(() => tickets.PrioridadId)" />
+                    </div>
+                </div>
+
+			    <div class="row">
+                    @*Solicitado por*@
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="Solicitado por"><strong>Solicitado Por:</strong></label>
+                        <InputText @bind-Value="tickets.SolicitadoPor" class="form-control" />
+                        <ValidationMessage For="@(() => tickets.SolicitadoPor)" />
+                    </div>
+
+                    @*Asunto*@
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="Asunto"><strong>Asunto:</strong></label>
+                        <InputText @bind-Value="tickets.Asunto" class="form-control" />
+                        <ValidationMessage For="@(() => tickets.Asunto)" />
+                    </div>
+                </div>
+          
+                    @*Descripcion*@
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
+                        <label class="form-label" for="Descripcion"><strong>Descripci&oacute;n</strong></label>
+                        <InputText @bind-Value="tickets.Descripcion" class="form-control" />
+					<ValidationMessage For="@(() => tickets.Descripcion)" /><br />
+			    </div>
+
+                <div class="card-footer d-flex justify-content">
+                    <div class="col-xs-18 col-sm-12 col-md-10 col-lg-30 col-xl-40">
+                        <button type="submit" class="btn btn-primary bi bi-floppy">
+                            Guardar <i class="oi oi-document" />
+					    </button>@mensaje
+				    </div> 
+			    </div>
+            </div>
+        </div>
+    </div>
+   
+</EditForm>
+
+
+@code {
+	public Tickets tickets { get; set; } = new Tickets();
+    public string mensajeError = "";
+    public string? mensaje;
+    public string? mensajeElim;
+
+    public async Task Buscar()
+    {
+        var encontrado = await ticketsService.FindAsync(tickets.TicketId);
+        if (encontrado != null)
+            tickets = encontrado;
+        else
+            mensajeError = "No se encontró la prioridad";
+    }
+
+
+    public async Task Guardar()
+    {
+        var guardo = await ticketsService.Guardar(tickets);
+        if (guardo)
+        {
+            mensaje = "Se guardó";
+            Nuevo();
+        }
+        else
+            mensajeError = "No se pudo guardar";
+    }
+
+    void Nuevo()
+    {
+        this.tickets = new Tickets();
+        mensajeError = string.Empty;
+    }
+}

@@ -24,6 +24,8 @@ namespace ProyectoManager
             //inyecté las Services
             builder.Services.AddScoped<PrioridadesService>();
             builder.Services.AddScoped<ClientesService>();
+            builder.Services.AddScoped<TicketsService>();
+            builder.Services.AddScoped<SistemasService>();
 
             var app = builder.Build();
 

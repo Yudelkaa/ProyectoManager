@@ -1,16 +1,19 @@
-﻿@page "/C_Consulta"
-@inject ClientesService clientesService
+﻿@page "/Details"
+@inject ClientesService clientesService;
+@rendermode InteractiveServer
 
 <PageTitle>Registro de Tickets</PageTitle>
-<EditForm Model="@clientesService">
+<EditForm Model="@clientesService" FormName="clientes">
     <div class="container">
         <div class="card shadow-lg">
-            <div class="card-header alert-secondary" style="color: white; background-color: black;">
-                <h3><strong>Consultas de clientes</strong></h3>
+            <div class="card-header alert-secondary" style="color: white; background-color: royalblue;">
+                <NavLink class="btn btn-light float-end" href="Create">Registrar Clientes</NavLink>
+                <h1><strong>Consultas</strong></h1>
+                <h3>Clientes</h3>
             </div>
             <table class="table table table-striped table table-bordered">
                 <thead>
-                    <tr>
+                    <tr class="text-center">
                         <th>ID</th>  
                         <th>Nombre</th>
                         <th>Celular</th>
@@ -18,12 +21,13 @@
                         <th>RNC</th>
                         <th>Email</th>
                         <th>Direcci&oacute;n</th>
+                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var cliente in clientesService.GetClientes())
                     {
-                        <tr>
+                        <tr class="text-center">
                             <td>@cliente.ClientesId</td>
                             <td>@cliente.Nombres</td>
                             <td>@cliente.Celular</td>
@@ -31,14 +35,32 @@
                             <td>@cliente.RNC</td>
                             <td>@cliente.Email</td>
                             <td>@cliente.Direccion</td>
+                            <td><button class="btn btn-danger bi bi-trash" @onclick="() => clientesService.Eliminar(cliente)"></button></td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
+        @mensaje
     </div>
 </EditForm>
 
 @code {
+    public Clientes clientes { get; set; } = new Clientes();
+    public string? mensaje;
+
+    public async Task Eliminar()
+    {
+        var eliminado = await clientesService.Eliminar(clientes);
+
+        if (eliminado)
+        {
+            mensaje = "Se eliminó correctamente";
+        }
+        else
+        {
+            mensaje = "No se pudo eliminar el cliente";
+        }
+    }
 
 }

@@ -1,10 +1,10 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@*<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">ProyectoManager</a>
     </div>
-</div>
-
+</div>*@
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="flex-column">
@@ -14,28 +14,43 @@
             </NavLink>
         </div>
 
+      @*  <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Create">
+                <span class="bi bi-r-square-fill align-items-center d-flex justify-content-center" style="font-size: 1.5em;"></span>Registro Prioridades
+            </NavLink>
+        </div>*@
+
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="R_Prioridades">
-                <span class="bi bi-r-square-fill align-items-center d-flex justify-content-center" style="font-size: 1.5em;"></span>Registro
+            <NavLink class="nav-link" href="DetailsP">
+                <span class="bi bi-table align-items-center d-flex justify-content-center" style="font-size: 1.5em;"></span>Prioridades
             </NavLink>
         </div>
 
-
-        <div class="nav-item px-3">
+      @*  <div class="nav-item px-3">
             <NavLink class="nav-link" href="R_Clientes">
                 <span class="bi bi-table align-items-center d-flex justify-content-center" style="font-size: 1.5em;"></span>Registro Cliente
             </NavLink>
-        </div>
+        </div>*@
 
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="C_Consulta">
-                <span class="bi bi-list-ul align-items-center d-flex justify-content-center" style="font-size: 1.5em;"></span>Consulta Ciente
+            <NavLink class="nav-link" href="Details">
+                <span class="bi bi-list-ul align-items-center d-flex justify-content-center" style="font-size: 1.5em;"></span>Clientes
             </NavLink>
         </div>
 
-        <div>
-            
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="DetailsT">
+                <span class="bi bi-ticket align-items-center d-flex justify-content-center" style="font-size: 1.5em;"></span>Ticket
+            </NavLink>
         </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="/DetailsS">
+                <span class="bi bi-pc-display-horizontal align-items-center d-flex justify-content-center" style="font-size: 1.5em;"></span>Sistemas
+            </NavLink>
+        </div>
+
+
     </nav>
 </div>
 

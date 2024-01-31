@@ -1,0 +1,96 @@
+﻿@page "/CreateS"
+@rendermode InteractiveServer
+@inject SistemasService sistemasService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Registro de Tickets</PageTitle>
+<EditForm Model="sistema" OnValidSubmit="Crear">
+	<DataAnnotationsValidator />
+	<div class="container">
+
+		<div class="card shadow-lg">
+			<div class="card-header alert-secondary" style="color: white; background-color: royalblue;">
+				@*Header*@
+				<div>
+					<NavLink class="btn btn-light float-end" href="/DetailsS">Consultar Sistema</NavLink>
+					<h1><strong>Registrar</strong></h1>
+					<h3>Sistema</h3>
+				</div>
+			</div>
+			@*Body*@
+			<div class="card-body">
+				<div>
+					@*Id*@
+					<div>
+						<div>
+							<label class="form-label" for="ID"><strong>Id:</strong></label>
+							<InputNumber id="ID" class="form-control" @bind-Value="sistema.ID"></InputNumber>
+						</div>
+						<div>
+							<label class="form-label" for="nombre"><strong>Nombre:</strong></label>
+							<InputText id="nombre" class="form-control" @bind-Value="sistema.Nombre" placeholder="Escriba un nombre para el sistema"></InputText>
+							<ValidationMessage For="@(() => sistema.Nombre)"></ValidationMessage>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+			@*Boton*@
+			<div class="card-footer d-flex">
+				<div class="px-2">
+					<button type="button" class="btn btn-primary bi bi-list-columns-reverse" @onclick="Detalle"> Consultar</button>
+				</div>
+				<div>
+					<button type="submit" class="btn btn-success">
+						<i class="bi bi-floppy" /> Guardar
+					</button>
+				</div>
+			</div>
+			@mensaje
+		</div>
+	</div>
+</EditForm>
+
+@code {
+	public Sistemas sistema { get; set; } = new Sistemas();
+	public string mensaje { get; set; } = string.Empty;
+
+	public async Task Crear()
+	{
+		if (await Validar())
+			mensaje = "Vuelva a intentarlo";
+		else
+		{
+			var crear = await sistemasService.Guardar(sistema);
+			if (crear)
+			{
+				mensaje = "Creado correctamente";
+				await Task.Delay(2000);
+				LimpiarPantalla();
+			}
+			else
+				mensaje = "Error";
+		}
+	}
+
+	public async Task<bool> Validar()
+	{
+		var validar = await sistemasService.BuscarSistema(sistema.Nombre);
+		if (validar != null)
+			return true;
+
+		return false;
+	}
+
+	public void LimpiarPantalla()
+	{
+		sistema = new Sistemas();
+		mensaje = string.Empty;
+	}
+
+	void Detalle()
+	{
+		NavigationManager.NavigateTo("/DetailsS");
+	}
+}

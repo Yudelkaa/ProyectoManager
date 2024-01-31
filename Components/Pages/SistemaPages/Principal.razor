@@ -1,0 +1,72 @@
+﻿@page "/Principal"
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+@inject SistemasService sistemasService;
+@inject NavigationManager NavigationManager;
+
+<PageTitle>Sistemas</PageTitle>
+<div class="container">
+	<did class="card shadow-lg">
+		@*Header*@
+		<div class="card-header">
+			<div class="card-header alert-secondary" style="color: white; background-color: royalblue;">
+				<h3><strong>Sistemas</strong></h3>
+				<div class="d-flex justify-content">
+					<div class="px-2">
+						<button type="button" class="btn btn-primary" @onclick="Crear">Crear</button>
+					</div>
+					<button type="button" class="btn btn-success" @onclick="Consulta">Consulta</button>
+				</div>
+			</div>
+		</div>
+		@*Body*@
+		<div class="card-body">
+			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4"></div>
+			
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Sistema_Id</th>
+							<th>Nombre</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var sistemas in sistemasLista)
+						{
+							<tr>
+								<td>@sistemas.ID</td>
+								<td>@sistemas.Nombre</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+		</div>
+		@*Footer*@
+		<div class="card-footer">
+			<p><strong>Total de Sistemas:</strong> @sistemasLista.Count</p>
+		</div>
+
+	</did>
+</div>
+
+@code {
+	public Sistemas sistema { get; set; } = new Sistemas();
+	public List<Sistemas> sistemasLista = new List<Sistemas>();
+
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Delay(00);
+		Expression<Func<Sistemas, bool>> criterio = sistema => sistema.ID > 0;
+		sistemasLista = await sistemasService.Listar(criterio);
+	}
+
+	void Crear()
+	{
+		NavigationManager.NavigateTo("/CreateS");
+	}
+
+	void Consulta()
+	{
+		NavigationManager.NavigateTo("/DetailsS");
+	}
+}

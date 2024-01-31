@@ -14,30 +14,43 @@ namespace ProyectoManager.Services
         {
             _contexto = contexto;
         }
-        public async Task<bool> Guardar(Prioridades prioridad)
-        {
-            if (!await Existe(prioridad.PrioridadesId))
-                return await Insertar(prioridad);
-            else
-                return await Modificar(prioridad);
-        }
 
-        private async Task<bool> Insertar(Prioridades prioridad)
+		public async Task<bool> Guardar(Prioridades prioridad)
+		{
+			if (prioridad.PrioridadesId == 0)
+				return await Insertar(prioridad);
+			else
+				return await Modificar(prioridad);
+		}
+
+		private async Task<bool> Insertar(Prioridades prioridad)
         {
             _contexto.Prioridades.Add(prioridad);
             return await _contexto.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> Modificar(Prioridades prioridad)
-        {
-            _contexto.Update(prioridad);
-            return await _contexto.SaveChangesAsync() > 0;
-        }
 
-        public Task<bool> Validar(Prioridades prioridad)
+		public async Task<bool> Modificar(Prioridades prioridad)
+		{
+			
+			if (prioridad.PrioridadesId != 0)
+			{
+				_contexto.Update(prioridad);
+				var modifico = await _contexto.SaveChangesAsync() > 0;
+				return modifico;
+			}
+			else
+			{
+				
+				return false;
+			}
+		}
+
+
+		public Task<bool> Validar(Prioridades prioridad)
         {
-             var encontrado =  (_contexto.Prioridades.Any(p => p.Descripcion!.ToLower()
-            == prioridad.Descripcion!.ToLower()));
+            var encontrado = (_contexto.Prioridades.Any(p => p.Descripcion!.ToLower()
+           == prioridad.Descripcion!.ToLower()));
 
             return Task.FromResult(encontrado);
         }
@@ -47,7 +60,6 @@ namespace ProyectoManager.Services
             var cantidad = await _contexto.Prioridades
                 .Where(p => p.PrioridadesId == prioridad.PrioridadesId)
                 .ExecuteDeleteAsync();
-
             return cantidad > 0;
         }
 
@@ -68,7 +80,6 @@ namespace ProyectoManager.Services
         {
             return await _contexto.Prioridades
                 .AnyAsync(p => p.PrioridadesId == prioridadesId);
-
         }
 
         public List<Prioridades> GetPrioridades()
@@ -76,7 +87,6 @@ namespace ProyectoManager.Services
             var prioridad = _contexto.Prioridades.ToList();
             return prioridad;
         }
-
         public async Task<Prioridades?> FindAsync(int id)
         {
             return await _contexto.Prioridades.FindAsync(id);

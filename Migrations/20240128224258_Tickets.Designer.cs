@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProyectoManager.DAL;
 
@@ -10,9 +11,11 @@ using ProyectoManager.DAL;
 namespace ProyectoManager.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20240128224258_Tickets")]
+    partial class Tickets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
@@ -67,21 +70,6 @@ namespace ProyectoManager.Migrations
                     b.ToTable("Prioridades");
                 });
 
-            modelBuilder.Entity("ProyectoManager.Models.Sistemas", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Sistemas");
-                });
-
             modelBuilder.Entity("ProyectoManager.Models.Tickets", b =>
                 {
                     b.Property<int>("TicketId")
@@ -89,18 +77,15 @@ namespace ProyectoManager.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Asunto")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ClienteId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Descripcion")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("Fecha")
-                        .IsRequired()
+                    b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PrioridadId")
@@ -110,7 +95,6 @@ namespace ProyectoManager.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("SolicitadoPor")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("TicketId");

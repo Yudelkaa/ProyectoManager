@@ -20,16 +20,18 @@ namespace ProyectoManager.Migrations
                     Celular = table.Column<int>(type: "INTEGER", nullable: false),
                     RNC = table.Column<int>(type: "INTEGER", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
-                    Direccion = table.Column<string>(type: "TEXT", nullable: false)
+                    Direccion = table.Column<string>(type: "TEXT", nullable: false),
+
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clientes", x => x.ClientesId);
                 });
-        }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
+
+        }
+		/// <inheritdoc />
+		protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Clientes");
