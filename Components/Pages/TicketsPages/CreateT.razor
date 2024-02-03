@@ -77,7 +77,7 @@
                     @*Descripcion*@
                     <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6 col-xl-4">
                         <label class="form-label" for="Descripcion"><strong>Descripci&oacute;n</strong></label>
-                        <InputText @bind-Value="tickets.Descripcion" class="form-control" />
+                        <InputTextArea @bind-Value="tickets.Descripcion" class="form-control" InputTextarea/>
 					<ValidationMessage For="@(() => tickets.Descripcion)" /><br />
 			    </div>
 
