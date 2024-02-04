@@ -23,9 +23,9 @@ namespace ProyectoManager.Models
         public int SistemaId { get; set; }
 
 
-		[Range(1, int.MaxValue, ErrorMessage = "Debe ser válido")]
+		[Required(ErrorMessage = "Es requerido")]
         [ForeignKey("Prioridades")]
-        public int PrioridadId { get; set; }
+        public string? PrioridadId { get; set; }
 
 
 		[Required(ErrorMessage = "Es requerido")]
